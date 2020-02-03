@@ -146,7 +146,7 @@ window.addEventListener('mousemove',
 function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    console.log(mouse)
+    // console.log(mouse)
 })
 
 window.addEventListener('resize', function(){
@@ -222,7 +222,7 @@ function init(){
         // create a radius var so the bouce off the wall is cleaner
         circleArray.push(new Circle(x, y, dx, dy, radius));
     }
-console.log(circleArray)
+// console.log(circleArray)
 }
 
 
@@ -284,7 +284,7 @@ function init2(){
          // create a radius var so the bouce off the wall is cleaner
          cashArray.push(new Cash(x, y, dx, dy, radius));
      }
- console.log(cashArray)
+//  console.log(cashArray)
  }
 
 function animate(){
@@ -323,7 +323,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     }
   }
   function crashWith(feeling){ 
-    console.log("inside crashed")
+    // console.log("inside crashed")
     return !(
           car.x > feeling.x+feeling.radius ||
           car.y > feeling.y+feeling.radius ||
@@ -336,14 +336,14 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     var crashed = circleArray.some(function(feeling) {
       return crashWith(feeling);
     });
-    console.log(crashed)
+    // console.log(crashed)
     if (crashed) {
         window.cancelAnimationFrame(loop)
         
     } 
   }
   function scoreWith(cash){ 
-    console.log("Stackin' Paper")
+    // console.log("Stackin' Paper")
     return !(
           car.x > cash.x+cash.radius ||
           car.y > cash.y+cash.radius ||
@@ -358,8 +358,10 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     });
     console.log(scored)
     if (scored) {
-        cashArray.remove(cash);
-        cashArray.update();
+        cashArray.splice(0, 1);
+        return;
+        // cashArray.remove(newCash);
+        // cashArray.update();
         
     } 
   }
