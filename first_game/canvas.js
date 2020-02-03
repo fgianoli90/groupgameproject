@@ -16,14 +16,24 @@ canvas.height = window.innerHeight/1.5;
 
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
+var img1 = new Image();
+var img2 = new Image();
 let loop=window.requestAnimationFrame(animate)
 
 function startGame(){
     console.log("START");
-    img.onload = function() {  //Load the car for the first time 
-       ctx.drawImage(img, car.x, car.y, car.width, car.height);
+    img.onload = function() {  //Load the moneyBag for the first time 
+       ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
     };
-    img.src = "./images/car.png";
+    img.src = "./images/moneybag.jpg";
+    // img1.onload = function() {  //Load the moneyBag for the first time 
+    //     ctx.drawImage(img1, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
+    //  };
+    //  img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
+     img2.onload = function() {  //Load the moneyBag for the first time 
+        ctx.drawImage(img2, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
+     };
+     img2.src = "./images/right-slant-up.jpg";
     drawBoard()
     var divs = document.getElementsByTagName("div");
     divs[0].parentNode.appendChild(divs[0]);  
@@ -35,70 +45,39 @@ function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
-let car = {  
+let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
     width: 50,
     height: 80
   }
+let rightArm = {  
+    x:(canvas.width / 2)+50,
+    y:(canvas.height * 6/7)-30,
+    width: 30,
+    height: 80
+  }
+
+function drawRAC(){
+    ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
+}
+
+function drawRAB(){
+    let img3=new Image()
+    img3.src="./images/block-left.jpg"
+    ctx.drawImage(img3,rightArm.x,rightArm.y,rightArm.width,rightArm.height)
+}
   
-function drawCar() {
-    ctx.drawImage(img, car.x, car.y, car.width, car.height); //draws the car depending on the coords in the obj above 
+function drawBag() {
+    ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height); //draws the moneyBag depending on the coords in the obj above 
   }
   
- 
-  
-  
-//   function drawPerson() {
-//     ctx.drawImage(img, person.x, person.y, person.width, person.height); //draws the player depending on the coords in the obj above 
-//   }
-
-
-
-
-//Rectangles
-// ctx.fillStyle= 'rgba(255,0,0,0.5)'
-// ctx.fillRect(178, 100, 100, 100);
-// ctx.fillStyle= 'rgba(0,0,255,0.5)'
-// ctx.fillRect(100, 150, 100, 100);
-// ctx.fillStyle= 'rgba(0,255,0,0.5)'
-// ctx.fillRect(10, 275, 100, 100);
-// console.log(canvas);
-// //Lines
-// ctx.beginPath();
-// ctx.moveTo(50, 300);
-// ctx.lineTo(300, 100);
-// ctx.lineTo(400, 300);
-// ctx.strokeStyle = "#fa34a3"; 
-// ctx.stroke();
-// //Arc
-// // ctx.beginPath();
-// // ctx.arc(300, 300, 30,0, Math.PI * 2, false);
-// // ctx.stroke();
-// // Using a for loop to generate 100 circles with random locations
-// for (var i = 0; i < 100; i++){
-//     var x = Math.random()* window.innerWidth;
-//     var y = Math.random()* window.innerHeight;
-//     ctx.beginPath();
-//     ctx.arc(x, y, 30,0, Math.PI * 2, false);
-//     ctx.strokeStyle = 'blue';
-//     ctx.stroke();
-// }
-
-
-
 var mouse = {
     x: undefined,
     y: undefined
 }
 
-// var maxRadius = 40; //relevant to shrinking and growing affect
-// var minRadius = 5;
-
 var colorArray = [];
-
-// colorArray[0] = new Image();
-// colorArray[0].src = './images/smiley.png';
 
 let smiley = new Image();
 smiley.src = './images/smiley.png';
@@ -170,18 +149,7 @@ function Circle(x, y, dx, dy, radius){
                 this.dy = -this.dy
             }
             this.x += this.dx;
-            this.y += this.dy;
-
-
-            // this part of our code has the zoom-in and zoom out affect
-            // if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y -this.y > -50){  
-            //     if(this.radius < maxRadius){
-            //         this.radius += 1;
-            //     }
-                    
-            // } else if (this.radius > minRadius){
-            //     this.radius -= 1;
-            // }
+            this.y += this.dy;       
             this.draw();
         }
     }
@@ -207,38 +175,39 @@ function animate(){
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     if (white){
          drawBoard()
-         drawCar()
+         drawBag()
+         drawRAC()
          checkGameOver()
     }
     for (var i = 0; i < circleArray.length; i++){
         circleArray[i].update();
     }
 }
-// init();
-// animate();
+
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: car.y-=20; console.log('up',  ); break;
-      case 40: car.y+=20; console.log('down',); break;
-      case 37: if (car.x >= 110){
-        car.x-=20; console.log('left',); break;}
+      case 38: moneyBag.y-=20;rightArm.y-=20; console.log('up',  ); break;
+      case 40: moneyBag.y+=20;rightArm.y+=20; console.log('down',); break;
+      case 37: if (moneyBag.x > 50){
+        moneyBag.x-=20; rightArm.x-=20;console.log('left',); break;}
         else {
-          car.x === 110; break;
+          moneyBag.x === 0;rightArm.x===50; break;
         }
-      case 39: if (car.x <= canvas.width - 165){
-          car.x+=20; console.log('right'); break;
+      case 39: if (moneyBag.x <= canvas.width-100){
+          moneyBag.x+=20;rightArm.x+=20; console.log('right'); break;
       } else {
-        car.x === 165; break;
+        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30; break;
       }
+      case 32: drawRAB();console.log("space bar hit");break;
     }
   }
   function crashWith(feeling){ 
     console.log("inside crashed")
     return !(
-          car.x > feeling.x+feeling.radius ||
-          car.y > feeling.y+feeling.radius ||
-          car.x+car.width < feeling.x ||
-          car.y+car.height < feeling.y
+          moneyBag.x > feeling.x+feeling.radius ||
+          moneyBag.y > feeling.y+feeling.radius ||
+          moneyBag.x+moneyBag.width < feeling.x ||
+          moneyBag.y+moneyBag.height < feeling.y
         );
   }
   function checkGameOver() {
