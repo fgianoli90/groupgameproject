@@ -1,4 +1,5 @@
 let white=false
+
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
     startGame(); //calls startGame  
@@ -7,6 +8,7 @@ document.querySelector('#start-button').onclick = function(){
      animate()
     // drawBoard()
   };
+
 var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
 canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
@@ -14,15 +16,14 @@ canvas.height = window.innerHeight/1.5;
 
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
-
+let loop=window.requestAnimationFrame(animate)
 function startGame(){
     console.log("START");
-    
+    drawBoard()
     img.onload = function() {  //Load the car for the first time 
-       ctx.drawImage(img, person.x, person.y, person.width, person.height);
+    ctx.drawImage(img, person.x, person.y, person.width, person.height);
     };
     img.src = "./images/ship.gif";
-    drawBoard()
     var divs = document.getElementsByTagName("div");
     divs[0].parentNode.appendChild(divs[0]);  
     window.requestAnimationFrame(animate) //Starts the animation infinite loop
@@ -133,12 +134,12 @@ colorArray.push(hearts);
 
 
 
-window.addEventListener('mousemove', 
-function(event){
-    mouse.x = event.x;
-    mouse.y = event.y;
-    console.log(mouse)
-})
+// window.addEventListener('mousemove', 
+// function(event){
+//     mouse.x = event.x;
+//     mouse.y = event.y;
+//     console.log(mouse)
+// })
 
 window.addEventListener('resize', function(){
     canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
