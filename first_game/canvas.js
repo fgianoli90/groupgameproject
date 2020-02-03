@@ -73,7 +73,7 @@ var mouse = {
     y: undefined
 }
 
-// var maxRadius = 40; relevant to shrinking and growing affect
+// var maxRadius = 40; //relevant to shrinking and growing affect
 // var minRadius = 5;
 
 var colorArray = [];
@@ -86,8 +86,22 @@ smiley.src = './images/smiley.png';
 colorArray.push(smiley);
 
 let smiley2 = new Image();
-smiley2.src = './images/heart=eyes.png';
+smiley2.src = './images/heart-eyes.png';
 colorArray.push(smiley2);
+
+let moneyEmoji = new Image();
+moneyEmoji.src = './images/money.png';
+colorArray.push(moneyEmoji);
+
+let moneyWings = new Image();
+moneyWings.src = './images/moneywings.png';
+colorArray.push(moneyWings);
+
+let hearts = new Image();
+hearts.src = './images/hearts.png';
+colorArray.push(hearts);
+
+
 
 
 // colorArray[1] = new Image();
@@ -183,7 +197,7 @@ console.log(circleArray)
 var circleArray = [];
 
 function init(){
-   for (var i = 0; i < 100; i++){
+   for (var i = 0; i < 50; i++){
         var radius = Math.random() * 9 + 9;
         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
