@@ -1,26 +1,37 @@
-// document.querySelector('#start-button').onclick = function(){
-//     this.remove(); //removes start button
-//     startGame(); //calls startGame  
-//   };
+let white=false
+document.querySelector('#start-button').onclick = function(){
+    this.remove(); //removes start button
+    startGame(); //calls startGame  
+     white = true
+     init()
+     animate()
+    // drawBoard()
+  };
 var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
 canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight/1.5;
 
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
 
 function startGame(){
     console.log("START");
+    
     img.onload = function() {  //Load the car for the first time 
        ctx.drawImage(img, person.x, person.y, person.width, person.height);
     };
     img.src = "./images/ship.gif";
-  
+    drawBoard()
+    var divs = document.getElementsByTagName("div");
+    divs[0].parentNode.appendChild(divs[0]);  
     window.requestAnimationFrame(animate) //Starts the animation infinite loop
   }
 
-
+function drawBoard(){
+    ctx.fillStyle= "white";
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+}
 
 let person = {  
     x:canvas.width / 2,
@@ -174,11 +185,6 @@ function Circle(x, y, dx, dy, radius){
         }
     }
 
-
-
-
-console.log(circleArray)
-
 //declare animate function and request itself to create the loop
 var circleArray = [];
 
@@ -192,18 +198,21 @@ function init(){
         // create a radius var so the bouce off the wall is cleaner
         circleArray.push(new Circle(x, y, dx, dy, radius));
     }
-    console.log(circleArray)
+console.log(circleArray)
 }
 
-    function animate(){
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-        for (var i = 0; i < circleArray.length; i++){
-            circleArray[i].update();
-        }
+function animate(){
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    if (white){
+         drawBoard()
     }
-init();
-animate();
+    for (var i = 0; i < circleArray.length; i++){
+        circleArray[i].update();
+    }
+}
+// init();
+// animate();
 
 
 
