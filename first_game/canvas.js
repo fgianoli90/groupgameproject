@@ -213,6 +213,26 @@ function animate(){
         circleArray[i].update();
     }
 }
+
+
+document.onkeydown = function(e) { //controls -- up down left and right ... 
+    switch (e.keyCode) {
+      case 38: car.y-=20; console.log('up',  ); break;
+      case 40: car.y+=20; console.log('down',); break;
+      case 37: if (car.x >= 110){
+        car.x-=20; console.log('left',); break;}
+        else {
+          car.x === 110; break;
+        }
+      case 39: if (car.x <= canvas.width - 165){
+          car.x+=20; console.log('right'); break;
+      } else {
+        car.x === 165; break;
+      }
+      
+      
+    }
+  }
 // init();
 // animate();
 
