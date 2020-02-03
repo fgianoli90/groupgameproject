@@ -5,6 +5,7 @@ document.querySelector('#start-button').onclick = function(){
     startGame(); //calls startGame  
      white = true
      init()
+     init2()
      animate()
     // drawBoard()
   };
@@ -95,31 +96,52 @@ var mouse = {
 // var maxRadius = 40; //relevant to shrinking and growing affect
 // var minRadius = 5;
 
-var colorArray = [];
+var feelingsArray = [];
+var moneyArray = [];
+
+
+
+
+
 
 // colorArray[0] = new Image();
 // colorArray[0].src = './images/smiley.png';
 
+
+// Feelings Array
 let smiley = new Image();
 smiley.src = './images/smiley.png';
-colorArray.push(smiley);
+feelingsArray.push(smiley);
 
 let smiley2 = new Image();
 smiley2.src = './images/heart-eyes.png';
-colorArray.push(smiley2);
-
-let moneyEmoji = new Image();
-moneyEmoji.src = './images/money.png';
-colorArray.push(moneyEmoji);
-
-let moneyWings = new Image();
-moneyWings.src = './images/moneywings.png';
-colorArray.push(moneyWings);
+feelingsArray.push(smiley2);
 
 let hearts = new Image();
 hearts.src = './images/hearts.png';
-colorArray.push(hearts);
+feelingsArray.push(hearts);
 
+
+
+///////Money Array
+let moneyEmoji = new Image();
+moneyEmoji.src = './images/money.png';
+moneyArray.push(moneyEmoji);
+
+let moneyWings = new Image();
+moneyWings.src = './images/moneywings.png';
+moneyArray.push(moneyWings);
+
+
+
+// ///// Array Logic
+// var arrArray = [rand1, rand2]
+
+// var rand1 = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+// var rand2 = moneyArray[Math.floor(Math.random() * moneyArray.length)];
+
+
+//Event Listeners
 window.addEventListener('mousemove', 
 function(event){
     mouse.x = event.x;
@@ -132,6 +154,7 @@ window.addEventListener('resize', function(){
     canvas.height = window.innerHeight;
 
     init();
+    init2();
     })
 
 let gameWidth = canvas.width
@@ -144,14 +167,14 @@ let gameHeight = canvas.height
 
 function Circle(x, y, dx, dy, radius){
         this.x = x;
-        this.y = y;
+        this.y = 10;
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
         this.minRadius = radius;
-        this.stroke = colorArray[Math.floor(Math.random() * colorArray.length)];
-        this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
-        this.image = colorArray[Math.floor(Math.random() * colorArray.length)]; 
+        this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+        this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+        this.image = feelingsArray[Math.floor(Math.random() * feelingsArray.length)]; 
         this.draw = function () {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -190,8 +213,8 @@ function Circle(x, y, dx, dy, radius){
 var circleArray = [];
 
 function init(){
-   for (var i = 0; i < 50; i++){
-        var radius = Math.random() * 9 + 9;
+   for (var i = 0; i < 10; i++){
+        var radius = Math.random() * 9 + 2;
         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
         var dx = Math.random() - 0.5 * 2;   //create velocity variable
@@ -202,38 +225,85 @@ function init(){
 console.log(circleArray)
 }
 
-function animate(){
-    loop=requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    if (white){
-         drawBoard()
-         drawCar()
-         checkGameOver()
-    }
-    for (var i = 0; i < circleArray.length; i++){
-        circleArray[i].update();
+
+//second "Circle" function added
+function Cash(x, y, dx, dy, radius){
+    this.x = x;
+    this.y = 10;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+    this.minRadius = radius;
+    this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+    this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+    this.image = moneyArray[Math.floor(Math.random() * moneyArray.length)]; 
+    this.draw = function () {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        // ctx.strokeStyle = 'blue';
+        ctx.stroke();
+        ctx.strokeStyle = this.stroke;
+        // ctx.fillStyle = this.color;
+        // ctx.fill();
+        ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
+    };
+    this.update = function(){
+        if (this.x + this.radius > innerWidth || this.x - this.radius < 0){   
+            this.dx = -this.dx
+        }
+        if (this.y + this.radius > innerHeight || this.y - this.radius < 0){   
+            this.dy = -this.dy
+        }
+        this.x += this.dx;
+        this.y += this.dy;
+
+
+        // this part of our code has the zoom-in and zoom out affect
+        // if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y -this.y > -50){  
+        //     if(this.radius < maxRadius){
+        //         this.radius += 1;
+        //     }
+                
+        // } else if (this.radius > minRadius){
+        //     this.radius -= 1;
+        // }
+        this.draw();
     }
 }
 
+//declare animate function and request itself to create the loop
+var cashArray = [];
 
-document.onkeydown = function(e) { //controls -- up down left and right ... 
-    switch (e.keyCode) {
-      case 38: car.y-=20; console.log('up',  ); break;
-      case 40: car.y+=20; console.log('down',); break;
-      case 37: if (car.x >= 110){
-        car.x-=20; console.log('left',); break;}
-        else {
-          car.x === 110; break;
-        }
-      case 39: if (car.x <= canvas.width - 165){
-          car.x+=20; console.log('right'); break;
-      } else {
-        car.x === 165; break;
-      }
-      
-      
-    }
-  }
+function init2(){
+    for (var i = 0; i < 30; i++){
+         var radius = Math.random() * 9 + 2;
+         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
+         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
+         var dx = Math.random() - 0.5 * 2;   //create velocity variable
+         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
+         // create a radius var so the bouce off the wall is cleaner
+         cashArray.push(new Cash(x, y, dx, dy, radius));
+     }
+ console.log(cashArray)
+ }
+
+function animate(){
+loop=requestAnimationFrame(animate);
+ctx.clearRect(0, 0, innerWidth, innerHeight);
+if (white){
+     drawBoard()
+     drawCar()
+     checkGameOver()
+     checkScore()
+}
+for (var i = 0; i < circleArray.length; i++){
+    circleArray[i].update();
+}
+for (var i = 0; i < cashArray.length; i++){
+    cashArray[i].update();
+}
+
+
 // init();
 // animate();
 document.onkeydown = function(e) { //controls -- up down left and right ... 
@@ -269,7 +339,29 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     console.log(crashed)
     if (crashed) {
         window.cancelAnimationFrame(loop)
+        
+    } 
+  }
+  function scoreWith(cash){ 
+    console.log("Stackin' Paper")
+    return !(
+          car.x > cash.x+cash.radius ||
+          car.y > cash.y+cash.radius ||
+          car.x+car.width < cash.x ||
+          car.y+car.height < cash.y
+        );
+  }
+  function checkScore() {
+    
+    var scored = cashArray.some(function(cash) {
+      return scoreWith(cash);
+    });
+    console.log(scored)
+    if (scored) {
+        cashArray.remove(cash);
+        cashArray.update();
+        
     } 
   }
 
-
+}
