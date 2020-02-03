@@ -17,13 +17,14 @@ canvas.height = window.innerHeight/1.5;
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
 let loop=window.requestAnimationFrame(animate)
+
 function startGame(){
     console.log("START");
-    drawBoard()
     img.onload = function() {  //Load the car for the first time 
-    ctx.drawImage(img, person.x, person.y, person.width, person.height);
+       ctx.drawImage(img, car.x, car.y, car.width, car.height);
     };
-    img.src = "./images/ship.gif";
+    img.src = "./images/car.png";
+    drawBoard()
     var divs = document.getElementsByTagName("div");
     divs[0].parentNode.appendChild(divs[0]);  
     window.requestAnimationFrame(animate) //Starts the animation infinite loop
@@ -34,12 +35,18 @@ function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
-let person = {  
+let car = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
     width: 50,
     height: 80
   }
+  
+function drawCar() {
+    ctx.drawImage(img, car.x, car.y, car.width, car.height); //draws the car depending on the coords in the obj above 
+  }
+  
+ 
   
   
 //   function drawPerson() {
@@ -113,33 +120,12 @@ let hearts = new Image();
 hearts.src = './images/hearts.png';
 colorArray.push(hearts);
 
-
-
-
-// colorArray[1] = new Image();
-// colorArray[1].src = './images/smiley.png';
-
-// colorArray[2] = new Image();
-// colorArray[2].src = './images/smiley.png';
-
-// colorArray[3] = new Image();
-// colorArray[3].src = './images/smiley.png';
-
-// colorArray[4] = new Image();
-// colorArray[4].src = './images/smiley.png';
-
-// colorArray[5] = new Image();
-// colorArray[5].src = './images/smiley.png';
-
-
-
-
-// window.addEventListener('mousemove', 
-// function(event){
-//     mouse.x = event.x;
-//     mouse.y = event.y;
-//     console.log(mouse)
-// })
+window.addEventListener('mousemove', 
+function(event){
+    mouse.x = event.x;
+    mouse.y = event.y;
+    console.log(mouse)
+})
 
 window.addEventListener('resize', function(){
     canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
@@ -217,10 +203,12 @@ console.log(circleArray)
 }
 
 function animate(){
-    requestAnimationFrame(animate);
+    loop=requestAnimationFrame(animate);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     if (white){
          drawBoard()
+         drawCar()
+         checkGameOver()
     }
     for (var i = 0; i < circleArray.length; i++){
         circleArray[i].update();
@@ -228,6 +216,40 @@ function animate(){
 }
 // init();
 // animate();
-
+document.onkeydown = function(e) { //controls -- up down left and right ... 
+    switch (e.keyCode) {
+      case 38: car.y-=20; console.log('up',  ); break;
+      case 40: car.y+=20; console.log('down',); break;
+      case 37: if (car.x >= 110){
+        car.x-=20; console.log('left',); break;}
+        else {
+          car.x === 110; break;
+        }
+      case 39: if (car.x <= canvas.width - 165){
+          car.x+=20; console.log('right'); break;
+      } else {
+        car.x === 165; break;
+      }
+    }
+  }
+  function crashWith(feeling){ 
+    console.log("inside crashed")
+    return !(
+          car.x > feeling.x+feeling.radius ||
+          car.y > feeling.y+feeling.radius ||
+          car.x+car.width < feeling.x ||
+          car.y+car.height < feeling.y
+        );
+  }
+  function checkGameOver() {
+    
+    var crashed = circleArray.some(function(feeling) {
+      return crashWith(feeling);
+    });
+    console.log(crashed)
+    if (crashed) {
+        window.cancelAnimationFrame(loop)
+    } 
+  }
 
 
