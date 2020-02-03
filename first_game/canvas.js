@@ -1,4 +1,5 @@
 let white=false
+
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
     startGame(); //calls startGame  
@@ -7,6 +8,7 @@ document.querySelector('#start-button').onclick = function(){
      animate()
     // drawBoard()
   };
+
 var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
 canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
@@ -14,10 +16,10 @@ canvas.height = window.innerHeight/1.5;
 
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
+let loop=window.requestAnimationFrame(animate)
 
 function startGame(){
     console.log("START");
-    
     img.onload = function() {  //Load the car for the first time 
        ctx.drawImage(img, car.x, car.y, car.width, car.height);
     };
@@ -40,13 +42,11 @@ let car = {
     height: 80
   }
   
-  
-  
-  function drawCar() {
+function drawCar() {
     ctx.drawImage(img, car.x, car.y, car.width, car.height); //draws the car depending on the coords in the obj above 
   }
-
   
+ 
   
   
 //   function drawPerson() {
@@ -203,11 +203,12 @@ console.log(circleArray)
 }
 
 function animate(){
-    requestAnimationFrame(animate);
+    loop=requestAnimationFrame(animate);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     if (white){
          drawBoard()
          drawCar()
+         checkGameOver()
     }
     for (var i = 0; i < circleArray.length; i++){
         circleArray[i].update();
@@ -235,6 +236,40 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
   }
 // init();
 // animate();
-
+document.onkeydown = function(e) { //controls -- up down left and right ... 
+    switch (e.keyCode) {
+      case 38: car.y-=20; console.log('up',  ); break;
+      case 40: car.y+=20; console.log('down',); break;
+      case 37: if (car.x >= 110){
+        car.x-=20; console.log('left',); break;}
+        else {
+          car.x === 110; break;
+        }
+      case 39: if (car.x <= canvas.width - 165){
+          car.x+=20; console.log('right'); break;
+      } else {
+        car.x === 165; break;
+      }
+    }
+  }
+  function crashWith(feeling){ 
+    console.log("inside crashed")
+    return !(
+          car.x > feeling.x+feeling.radius ||
+          car.y > feeling.y+feeling.radius ||
+          car.x+car.width < feeling.x ||
+          car.y+car.height < feeling.y
+        );
+  }
+  function checkGameOver() {
+    
+    var crashed = circleArray.some(function(feeling) {
+      return crashWith(feeling);
+    });
+    console.log(crashed)
+    if (crashed) {
+        window.cancelAnimationFrame(loop)
+    } 
+  }
 
 
