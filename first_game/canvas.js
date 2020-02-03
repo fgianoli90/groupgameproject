@@ -19,9 +19,9 @@ function startGame(){
     console.log("START");
     
     img.onload = function() {  //Load the car for the first time 
-       ctx.drawImage(img, person.x, person.y, person.width, person.height);
+       ctx.drawImage(img, car.x, car.y, car.width, car.height);
     };
-    img.src = "./images/ship.gif";
+    img.src = "./images/car.png";
     drawBoard()
     var divs = document.getElementsByTagName("div");
     divs[0].parentNode.appendChild(divs[0]);  
@@ -33,12 +33,20 @@ function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
-let person = {  
+let car = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
     width: 50,
     height: 80
   }
+  
+  
+  
+  function drawCar() {
+    ctx.drawImage(img, car.x, car.y, car.width, car.height); //draws the car depending on the coords in the obj above 
+  }
+
+  
   
   
 //   function drawPerson() {
@@ -111,27 +119,6 @@ colorArray.push(moneyWings);
 let hearts = new Image();
 hearts.src = './images/hearts.png';
 colorArray.push(hearts);
-
-
-
-
-// colorArray[1] = new Image();
-// colorArray[1].src = './images/smiley.png';
-
-// colorArray[2] = new Image();
-// colorArray[2].src = './images/smiley.png';
-
-// colorArray[3] = new Image();
-// colorArray[3].src = './images/smiley.png';
-
-// colorArray[4] = new Image();
-// colorArray[4].src = './images/smiley.png';
-
-// colorArray[5] = new Image();
-// colorArray[5].src = './images/smiley.png';
-
-
-
 
 window.addEventListener('mousemove', 
 function(event){
@@ -220,6 +207,7 @@ function animate(){
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     if (white){
          drawBoard()
+         drawCar()
     }
     for (var i = 0; i < circleArray.length; i++){
         circleArray[i].update();
