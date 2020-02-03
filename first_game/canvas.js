@@ -83,6 +83,11 @@ var colorArray = [];
 
 let smiley = new Image();
 smiley.src = './images/smiley.png';
+colorArray.push(smiley);
+
+let smiley2 = new Image();
+smiley2.src = './images/heart=eyes.png';
+colorArray.push(smiley2);
 
 
 // colorArray[1] = new Image();
@@ -134,7 +139,7 @@ function Circle(x, y, dx, dy, radius){
         this.minRadius = radius;
         this.stroke = colorArray[Math.floor(Math.random() * colorArray.length)];
         this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
-        this.image = smiley 
+        this.image = colorArray[Math.floor(Math.random() * colorArray.length)]; 
         this.draw = function () {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
