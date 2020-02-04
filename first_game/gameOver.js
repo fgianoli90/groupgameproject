@@ -23,4 +23,3 @@ doGameOver.prototype = {
     }
 
 }
-
