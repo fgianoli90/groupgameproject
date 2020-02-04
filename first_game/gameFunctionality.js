@@ -109,11 +109,11 @@ function checkStatus() {
 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
   switch (e.keyCode) {
-    case 38: if (avatarGirl.y >= canvas.height-150){
+    case 38: if (avatarGirl.y > canvas.height-130){
                   avatarGirl.y-=20;toggleRUP()//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
                   break;
               }else{
-                  avatarGirl.y=150;//rightArm.y-=0; leftArm.y-=0;
+                  avatarGirl.y=canvas.height-150;//rightArm.y-=0; leftArm.y-=0;
                   break;
               }
     case 40: if (avatarGirl.y <= canvas.height-110){
@@ -125,23 +125,53 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
               }
 
     case 37: if(avatarGirl.x >= 20){
-              avatarGirl.x-=20; toggleRAB();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
-              break;
+                if (avatarGirl.y<canvas.height-150){
+                  avatarGirl.x-=2;toggleRRT();
+                }else{
+                avatarGirl.x-=20; toggleRAB();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                }break;
               }else {
               avatarGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
               }
     case 39: if (avatarGirl.x <= canvas.width-80){
-              avatarGirl.x+=20;toggleRRT();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
-              break;
+                if (avatarGirl.y<canvas.height-150){
+                  avatarGirl.x+=2;toggleRRT();
+                }else{
+                  avatarGirl.x+=20;toggleRRT();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+              } break;
               } else {
               avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
               break;
               }
-    case 32: //console.log("space bar hit");
+    case 32: jump()//console.log("space bar hit");
               break;
 }}
 
 
+function jump(){
+  let peak = canvas.height-250
+  let ghettoGravity = 1;
+  let j = setInterval(()=>{
+    ghettoGravity-=.05;
+    ghettoGravity = Math.max(0.2, ghettoGravity)
+    avatarGirl.y-=10*ghettoGravity;
+    if(avatarGirl.y <peak){
+      clearInterval(j)
+      fall()
+    }
+  },1)
+}
+function fall(){
+  console.log("fall")
+  let ghettoGravity = .2;
+  let k = setInterval(()=>{
+    ghettoGravity+=.05
+    avatarGirl.y+=10*ghettoGravity;
+    if(avatarGirl.y >= canvas.height-130){
+      clearInterval(k)
+    }
+  },1)
+}
 //Image objects with initial properties declared
 var emojiLives=[
   {

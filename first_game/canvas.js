@@ -212,19 +212,13 @@ var mouse = {
     y: undefined
 }
 
-
-
-
-
 var ballSpawnHeight = 10;
-
-
 
 function createFeelings(){
     setInterval(() => {
-        var radius = Math.random() * 9 + 2;
-        var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
-        var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
+        var radius = Math.random() * 9 //+ 2;
+        var x = Math.random() * (canvas.width - radius * 2) + radius;   //random location for each spawn
+        var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
         var dx = Math.random() - 0.5 * 2;   //create velocity variable
         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
         circleArray.push(new Circle(x, y, dx, dy, radius));
