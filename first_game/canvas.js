@@ -36,15 +36,16 @@ function startGame(){
     img.onload = function() {  //Load the moneyBag for the first time 
        ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
     };
-    img.src = "./images/moneybag.jpg";
-    img1.onload = function() {  //Load the moneyBag for the first time 
-        ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
-     };
-    img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
-    img2.onload = function() {  //Load the moneyBag for the first time 
-        ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
-     };
-     img2.src = "./images/right-slant-up.jpg";
+    img.src = "./images/girl_movements/Idle.png";
+    // img1.onload = function() {  //Load the moneyBag for the first time 
+    //     ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
+    //  };
+    //  img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
+    //  img2.onload = function() {  //Load the moneyBag for the first time 
+    //     ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
+    //  };
+    //  img2.src = "./images/right-slant-up.jpg";
+    drawBoard()
     
     
     kimCryEmoji.onload= function() {
@@ -95,41 +96,164 @@ var emojiLives=[
     width: 40,
     height: 40
 }]
+
+function Star() {
+    this.radius = (Math.random() * 10) + 5;
+    this.x = this.radius + (canvas.width - this.radius * 2) * Math.random();
+    this.y = -10; 
+    this.dx = (Math.random() - 0.5) * 20;
+    this.dy = 30;
+    this.gravity = .5;
+    this.friction = .54;
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, Math.abs(this.radius), 0, Math.PI * 2, false);
+
+        ctx.shadowColor = '#E3EAEF';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "#E3EAEF";
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+    }
+}
+function createMountainRange(mountainAmount, height,  color) {
+    for (var i = 0; i < mountainAmount; i++) {
+        var mountainWidth = canvas.width / mountainAmount;
+
+        // Draw triangle
+        ctx.beginPath();
+        ctx.moveTo(i * mountainWidth, canvas.height);
+        ctx.lineTo(i * mountainWidth + mountainWidth + 325, canvas.height);
+
+        // Triangle peak
+        ctx.lineTo(i * mountainWidth + mountainWidth / 2, canvas.height - height);
+        ctx.lineTo(i * mountainWidth - 325, canvas.height);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+function MiniStar() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 3;
+
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+
+        ctx.shadowColor = 'yellow';
+        ctx.shadowBlur = (Math.random() * 10) + 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        ctx.closePath();	
+        ctx.restore();
+    }
+}
+var stars = [];
+		// var explosions = [];
+		var groundHeight = canvas.height * 0.15;
+		// var randomSpawnRate = Math.floor((Math.random() * 25) + 60)
+		var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
+		backgroundGradient.addColorStop(0,"#171e26");
+		backgroundGradient.addColorStop(1,"#ff4da6");
+
+		var miniStars = [];
+		for (var i = 0; i < 30; i++) {
+			miniStars.push(new MiniStar());
+		}
+
+
+
+
+
 let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
-    width: 50,
-    height: 80
+    width: 60,
+    height: 90
   }
-let rightArm = {  
-    x:(canvas.width / 2)+50,
-    y:(canvas.height * 6/7)-30,
-    width: 30,
-    height: 80
-  }
-let leftArm = {  
-    x:(canvas.width / 2)-30,
-    y:(canvas.height * 6/7)-30,
-    width: 30,
-    height: 80
-  }
-function drawRAC(){
-    ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
-}
-function drawLAC(){
-    ctx.drawImage(img1,leftArm.x,leftArm.y,leftArm.width,leftArm.height);
-}
+// let rightArm = {  
+//     x:(canvas.width / 2)+50,
+//     y:(canvas.height * 6/7)-30,
+//     width: 30,
+//     height: 80
+//   }
+// let leftArm = {  
+//     x:(canvas.width / 2)-30,
+//     y:(canvas.height * 6/7)-30,
+//     width: 30,
+//     height: 80
+//   }
+// function drawRAC(){
+//     ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
+// }
+// function drawLAC(){
+//     ctx.drawImage(img1,leftArm.x,leftArm.y,leftArm.width,leftArm.height);
+// }
 let img3=new Image()
-img3.src="./images/block-left.jpg"
+img3.src="./images/girl_movements/Run_Left.png"
 let rab = false; 
+
+let img4=new Image()
+img4.src="./images/girl_movements/Run_Right.png"
+let rrt = false; 
+
+let img5=new Image()
+img5.src="./images/girl_movements/move_up.png"
+let rup = false; 
+
+let img6=new Image()
+img6.src="./images/girl_movements/move_down.png"
+let rdown = false; 
 
 function toggleRAB(){
     rab = true;
-    setTimeout(()=>rab=false,2000)
+    setTimeout(()=>rab=false,200)
+}
+function toggleRRT(){
+    rrt = true;
+    setTimeout(()=>rrt=false,200)
+}
+function toggleRUP(){
+    rup = true;
+    setTimeout(()=>rup=false,200)
+}
+
+function toggleRDOWN(){
+    rdown = true;
+    setTimeout(()=>rdown=false,200)
 }
 
 function drawRAB(){
-    ctx.drawImage(img3,rightArm.x,rightArm.y,rightArm.width,rightArm.height)
+    rab = true;
+    ctx.drawImage(img3,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRRT(){
+    rrt = true;
+    ctx.drawImage(img4,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRUP(){
+    rup = true;
+    ctx.drawImage(img5,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRDOWN(){
+    rdown = true;
+    ctx.drawImage(img6,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
 }
   
 function drawBag() {
@@ -165,7 +289,7 @@ feelingsArray.push(hearts);
 
 //Money Array
 let moneyEmoji = new Image();
-moneyEmoji.src = './images/money.png';
+moneyEmoji.src = './images/coin3.png';
 moneyArray.push(moneyEmoji);
 
 let moneyWings = new Image();
@@ -180,14 +304,12 @@ function(event){
     // console.log(mouse)
 })
 
-let gameWidth = canvas.width
-let gameHeight = canvas.height
-
+var ballSpawnHeight = 10;
 
 class Circle{
     constructor(x, y, dx, dy, radius){
         this.x = x;
-        this.y = 10;
+        this.y = ballSpawnHeight;
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
@@ -246,7 +368,7 @@ function createFeelings(){
 class Cash{
     constructor(x, y, dx, dy, radius){
     this.x = x;
-    this.y = 10;
+    this.y = ballSpawnHeight;
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
@@ -301,19 +423,41 @@ setInterval(() => {
 
 function animate(){
 loop=requestAnimationFrame(animate);
+ctx.fillStyle = backgroundGradient;
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBoard()
 drawGameLives()
+for (var i = 0; i < miniStars.length; i++) {
+    miniStars[i].draw();
+}
+createMountainRange(1, canvas.height - 50, "#fff");
+createMountainRange(2, canvas.height - 100,  "#e60073");
+createMountainRange(3, canvas.height - 300 , "#ff4da6");
+
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 drawBag()
-drawRAC()
-drawLAC()
+// drawRAC()
+// drawLAC()
 init1()
 init2()
 checkStatus()
 
-// 
+//Player movement status checker
 if(rab){
     drawRAB()
+}
+
+if(rrt){
+    drawRRT()
+}
+
+if(rup){
+    drawRUP()
+}
+
+if(rdown){
+    drawRDOWN()
 }
 for (var i = 0; i < circleArray.length; i++){
     circleArray[i].update();
@@ -326,37 +470,36 @@ for (var i = 0; i < cashArray.length; i++){
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
       case 38: if (moneyBag.y >= 20){
-                    moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+                    moneyBag.y-=20;toggleRUP()//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
                     break;
                 }else{
-                    moneyBag.y-=0;rightArm.y-=0; leftArm.y-=0;
+                    moneyBag.y-=0;//rightArm.y-=0; leftArm.y-=0;
                     break;
                 }
       case 40: if (moneyBag.y <= canvas.height-100){
-                    moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+                    moneyBag.y+=20;toggleRDOWN()//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
                     break;
                 }else{
-                    moneyBag.y+=0;rightArm.y+=0; leftArm.y+=0;
+                    moneyBag.y+=0;//rightArm.y+=0; leftArm.y+=0;
                     break;
                 }
 
       case 37: if(moneyBag.x > 50){
-                moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                moneyBag.x-=20; toggleRAB();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 break;
                 }else {
-                moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
+                moneyBag.x === 30;//rightArm.x===80;rightArm.x===0; break;
                 }
       case 39: if (moneyBag.x <= canvas.width-100){
-                moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                moneyBag.x+=20;toggleRRT();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
                 break;
                 } else {
                 moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
                 break;
                 }
-      case 32: toggleRAB();//console.log("space bar hit");
+      case 32: //console.log("space bar hit");
                 break;
-    }
-  }
+  }}
 
   function collision(object){ 
     // console.log("inside crashed")
