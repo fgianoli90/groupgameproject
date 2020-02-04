@@ -1,19 +1,23 @@
-let white=false
-
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
     startGame(); //calls startGame  
-     white = true
-     init()
-     init2()
-     animate()
-    // drawBoard()
+    createFeelings()
+    createCash()
+    animate()
   };
 
 var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
-canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
-canvas.height = window.innerHeight/1.5;
+canvas.width = window.innerWidth/1.5; // Sets our canvas to browsers current dimensions
+canvas.height = window.innerHeight/1.8;
+
+
+window.addEventListener('resize', function(){
+    canvas.width = window.outerWidth/1.5; // Sets our canvas to browsers current dimensions
+    canvas.height = window.outerHeight/1.8;
+    init();
+    init2();
+    })
 
 var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
@@ -27,22 +31,25 @@ function startGame(){
        ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
     };
     img.src = "./images/moneybag.jpg";
-    // img1.onload = function() {  //Load the moneyBag for the first time 
-    //     ctx.drawImage(img1, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
-    //  };
-    //  img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
+    img1.onload = function() {  //Load the moneyBag for the first time 
+        ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
+     };
+     img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
      img2.onload = function() {  //Load the moneyBag for the first time 
-        ctx.drawImage(img2, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
+        ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
      };
      img2.src = "./images/right-slant-up.jpg";
     drawBoard()
+    
     var divs = document.getElementsByTagName("div");
+    document.querySelector("p").style.fontSize="20px"
+    document.querySelector("p").style.backgroundColor="black"
+    document.querySelector(".game-intro").style.marginTop="0"
     divs[0].parentNode.appendChild(divs[0]);  
     window.requestAnimationFrame(animate) //Starts the animation infinite loop
   }
 
 function drawBoard(){
-    ctx.fillStyle= "white";
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
@@ -58,11 +65,18 @@ let rightArm = {
     width: 30,
     height: 80
   }
-
+let leftArm = {  
+    x:(canvas.width / 2)-30,
+    y:(canvas.height * 6/7)-30,
+    width: 30,
+    height: 80
+  }
 function drawRAC(){
     ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
 }
-
+function drawLAC(){
+    ctx.drawImage(img1,leftArm.x,leftArm.y,leftArm.width,leftArm.height);
+}
 let img3=new Image()
 img3.src="./images/block-left.jpg"
 let rab = false; 
@@ -86,20 +100,8 @@ var mouse = {
     y: undefined
 }
 
-// var maxRadius = 40; //relevant to shrinking and growing affect
-// var minRadius = 5;
-
 var feelingsArray = [];
 var moneyArray = [];
-
-
-
-
-
-
-// colorArray[0] = new Image();
-// colorArray[0].src = './images/smiley.png';
-
 
 // Feelings Array
 let smiley = new Image();
@@ -114,9 +116,7 @@ let hearts = new Image();
 hearts.src = './images/hearts.png';
 feelingsArray.push(hearts);
 
-
-
-///////Money Array
+//Money Array
 let moneyEmoji = new Image();
 moneyEmoji.src = './images/money.png';
 moneyArray.push(moneyEmoji);
@@ -127,7 +127,7 @@ moneyArray.push(moneyWings);
 
 
 
-// ///// Array Logic
+// // Array Logic
 // var arrArray = [rand1, rand2]
 
 // var rand1 = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
@@ -135,30 +135,19 @@ moneyArray.push(moneyWings);
 
 
 //Event Listeners
-window.addEventListener('mousemove', 
+window.addEventListener('mousemove', //Is it in current use?
 function(event){
     mouse.x = event.x;
     mouse.y = event.y;
     console.log(mouse)
 })
 
-window.addEventListener('resize', function(){
-    canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
-    canvas.height = window.innerHeight;
-
-    init();
-    init2();
-    })
-
 let gameWidth = canvas.width
 let gameHeight = canvas.height
 
 
-
-
-
-
-function Circle(x, y, dx, dy, radius){
+class Circle{
+    constructor(x, y, dx, dy, radius){
         this.x = x;
         this.y = 10;
         this.dx = dx;
@@ -168,7 +157,8 @@ function Circle(x, y, dx, dy, radius){
         this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
         this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
         this.image = feelingsArray[Math.floor(Math.random() * feelingsArray.length)]; 
-        this.draw = function () {
+    }
+        draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             // ctx.strokeStyle = 'blue';
@@ -178,7 +168,7 @@ function Circle(x, y, dx, dy, radius){
             // ctx.fill();
             ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
         };
-        this.update = function(){
+        update() {
             if (this.x + this.radius > innerWidth || this.x - this.radius < 0){   
                 this.dx = -this.dx
             }
@@ -194,22 +184,46 @@ function Circle(x, y, dx, dy, radius){
 //declare animate function and request itself to create the loop
 var circleArray = [];
 
-function init(){
-   for (var i = 0; i < 10; i++){
+// function init(){
+//    for (var i = 0; i < 10; i++){
+//         var radius = Math.random() * 9 + 2;
+//         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
+//         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
+//         var dx = Math.random() - 0.5 * 2;   //create velocity variable
+//         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
+//         // create a radius var so the bouce off the wall is cleaner
+//         console.log(new Circle(x, y, dx, dy, radius))
+//         new Circle(x, y, dx, dy, radius).draw()
+//         new Circle(x, y, dx, dy, radius).update()
+//         circleArray.push(new Circle(x, y, dx, dy, radius));
+//     }
+// console.log(circleArray)
+// }
+function init1(){
+    circleArray.forEach(circle =>{
+        circle.draw()
+        circle.update()
+        })
+}
+
+function createFeelings(){
+    setInterval(() => {
         var radius = Math.random() * 9 + 2;
         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
         var dx = Math.random() - 0.5 * 2;   //create velocity variable
         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
         // create a radius var so the bouce off the wall is cleaner
+        // new Circle(x, y, dx, dy, radius).draw()
+        // new Circle(x, y, dx, dy, radius).update()
         circleArray.push(new Circle(x, y, dx, dy, radius));
-    }
-console.log(circleArray)
+    }, 3000);
 }
 
 
 //second "Circle" function added
-function Cash(x, y, dx, dy, radius){
+class Cash{
+    constructor(x, y, dx, dy, radius){
     this.x = x;
     this.y = 10;
     this.dx = dx;
@@ -219,7 +233,8 @@ function Cash(x, y, dx, dy, radius){
     this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
     this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
     this.image = moneyArray[Math.floor(Math.random() * moneyArray.length)]; 
-    this.draw = function () {
+    }
+    draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         // ctx.strokeStyle = 'blue';
@@ -229,26 +244,15 @@ function Cash(x, y, dx, dy, radius){
         // ctx.fill();
         ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
     };
-    this.update = function(){
-        if (this.x + this.radius > innerWidth || this.x - this.radius < 0){   
+    update(){
+        if (this.x + this.radius > canvas.width || this.x - this.radius <= 0){   
             this.dx = -this.dx
         }
-        if (this.y + this.radius > innerHeight || this.y - this.radius < 0){   
+        if (this.y + this.radius > canvas.height || this.y - this.radius <= 0){   
             this.dy = -this.dy
         }
         this.x += this.dx;
         this.y += this.dy;
-
-
-        // this part of our code has the zoom-in and zoom out affect
-        // if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y -this.y > -50){  
-        //     if(this.radius < maxRadius){
-        //         this.radius += 1;
-        //     }
-                
-        // } else if (this.radius > minRadius){
-        //     this.radius -= 1;
-        // }
         this.draw();
     }
 }
@@ -256,29 +260,53 @@ function Cash(x, y, dx, dy, radius){
 //declare animate function and request itself to create the loop
 var cashArray = [];
 
+// function init2(){
+//     for (var i = 0; i < 30; i++){
+//          var radius = Math.random() * 9 + 2;
+//          var x = Math.random() * (canvas.width - radius * 2) + radius;   //random location for each spawn
+//          var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
+//          var dx = Math.random() - 0.5 * 2;   //create velocity variable
+//          var dy = Math.random() - 0.5 * 2;  //randomize initial direction
+//          // create a radius var so the bouce off the wall is cleaner
+//         //  new Cash(x, y, dx, dy, radius).draw()
+//         //  new Cash(x, y, dx, dy, radius).update()
+//          cashArray.push(new Cash(x, y, dx, dy, radius));
+//      }
+//  console.log(cashArray)
+//  }
 function init2(){
-    for (var i = 0; i < 30; i++){
-         var radius = Math.random() * 9 + 2;
-         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
-         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
-         var dx = Math.random() - 0.5 * 2;   //create velocity variable
-         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-         // create a radius var so the bouce off the wall is cleaner
-         cashArray.push(new Cash(x, y, dx, dy, radius));
-     }
- console.log(cashArray)
- }
+    cashArray.forEach(cash =>{
+    cash.draw()
+    cash.update()
+    })
+}
+
+function createCash(){
+setInterval(() => {
+    var radius = Math.random() * 9 + 2;
+    var x = Math.random() * (canvas.width - radius * 2) + radius;   //random location for each spawn
+    var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
+    var dx = Math.random() - 0.5 * 2;   //create velocity variable
+    var dy = Math.random() - 0.5 * 2;  //randomize initial direction
+    // create a radius var so the bouce off the wall is cleaner
+   //  new Cash(x, y, dx, dy, radius).draw()
+   //  new Cash(x, y, dx, dy, radius).update()
+    cashArray.push(new Cash(x, y, dx, dy, radius))
+}, 2000)
+}
 
 function animate(){
 loop=requestAnimationFrame(animate);
-ctx.clearRect(0, 0, innerWidth, innerHeight);
-if (white){
-     drawBoard()
-     drawBag()
-     drawRAC()
-     checkGameOver()
-     checkScore()
-}
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+drawBoard()
+drawBag()
+drawRAC()
+drawLAC()
+init1()
+init2()
+checkGameOver()
+checkScore()
+// 
 if(rab){
     drawRAB()
 }
@@ -294,17 +322,17 @@ for (var i = 0; i < cashArray.length; i++){
 // animate();
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: moneyBag.y-=20;rightArm.y-=20; console.log('up',  ); break;
-      case 40: moneyBag.y+=20;rightArm.y+=20; console.log('down',); break;
+      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; console.log('up',  ); break;
+      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; console.log('down',); break;
       case 37: if (moneyBag.x > 50){
-        moneyBag.x-=20; rightArm.x-=20;console.log('left',); break;}
+        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;console.log('left',); break;}
         else {
-          moneyBag.x === 0;rightArm.x===50; break;
+          moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
         }
       case 39: if (moneyBag.x <= canvas.width-100){
-          moneyBag.x+=20;rightArm.x+=20; console.log('right'); break;
+          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; console.log('right'); break;
       } else {
-        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30; break;
+        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; break;
       }
       case 32: toggleRAB();console.log("space bar hit");break;
     }
