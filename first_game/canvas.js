@@ -351,23 +351,27 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
           moneyBag.y+moneyBag.height < object.y
         )
     }
+
+
     let score=0
     function checkStatus() {
-
-    for (let i=0;i<circleArray.length;i++){  
-        if(collision(circleArray[i])){
-            console.log("feelings got me")
-            window.cancelAnimationFrame(loop)
-            // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
-            i= circleArray.length
+        let status=true
+        for (let i=0;i<circleArray.length;i++){  
+            if(collision(circleArray[i])){
+                console.log("feelings got me")
+                window.cancelAnimationFrame(loop)
+                // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+                i= circleArray.length
+                doGameOver(ctx)
+                console.log("doGameover")
+            }
         }
-    }
-    
-    cashArray.forEach(cash => {
-        if(collision(cash)){
-          cashArray.splice(cashArray.indexOf(cash),1)
-          score += 10
-        }
-    })
+        
+        cashArray.forEach(cash => {
+            if(collision(cash)){
+            cashArray.splice(cashArray.indexOf(cash),1)
+            score += 10
+            }
+        })
     
 }
