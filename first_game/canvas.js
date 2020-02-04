@@ -30,15 +30,15 @@ function startGame(){
     img.onload = function() {  //Load the moneyBag for the first time 
        ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height);
     };
-    img.src = "./images/moneybag.jpg";
-    img1.onload = function() {  //Load the moneyBag for the first time 
-        ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
-     };
-     img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
-     img2.onload = function() {  //Load the moneyBag for the first time 
-        ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
-     };
-     img2.src = "./images/right-slant-up.jpg";
+    img.src = "./images/girl_movements/Idle.png";
+    // img1.onload = function() {  //Load the moneyBag for the first time 
+    //     ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
+    //  };
+    //  img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
+    //  img2.onload = function() {  //Load the moneyBag for the first time 
+    //     ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
+    //  };
+    //  img2.src = "./images/right-slant-up.jpg";
     drawBoard()
     
     var divs = document.getElementsByTagName("div");
@@ -137,39 +137,79 @@ var stars = [];
 let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
-    width: 50,
-    height: 80
+    width: 60,
+    height: 90
   }
-let rightArm = {  
-    x:(canvas.width / 2)+50,
-    y:(canvas.height * 6/7)-30,
-    width: 30,
-    height: 80
-  }
-let leftArm = {  
-    x:(canvas.width / 2)-30,
-    y:(canvas.height * 6/7)-30,
-    width: 30,
-    height: 80
-  }
-function drawRAC(){
-    ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
-}
-function drawLAC(){
-    ctx.drawImage(img1,leftArm.x,leftArm.y,leftArm.width,leftArm.height);
-}
+// let rightArm = {  
+//     x:(canvas.width / 2)+50,
+//     y:(canvas.height * 6/7)-30,
+//     width: 30,
+//     height: 80
+//   }
+// let leftArm = {  
+//     x:(canvas.width / 2)-30,
+//     y:(canvas.height * 6/7)-30,
+//     width: 30,
+//     height: 80
+//   }
+// function drawRAC(){
+//     ctx.drawImage(img2,rightArm.x,rightArm.y,rightArm.width,rightArm.height);
+// }
+// function drawLAC(){
+//     ctx.drawImage(img1,leftArm.x,leftArm.y,leftArm.width,leftArm.height);
+// }
 let img3=new Image()
-img3.src="./images/block-left.jpg"
+img3.src="./images/girl_movements/Run_Left.png"
 let rab = false; 
+
+let img4=new Image()
+img4.src="./images/girl_movements/Run_Right.png"
+let rrt = false; 
+
+let img5=new Image()
+img5.src="./images/girl_movements/move_up.png"
+let rup = false; 
+
+let img6=new Image()
+img6.src="./images/girl_movements/move_down.png"
+let rdown = false; 
 
 function toggleRAB(){
     rab = true;
-    setTimeout(()=>rab=false,2000)
+    setTimeout(()=>rab=false,200)
+}
+function toggleRRT(){
+    rrt = true;
+    setTimeout(()=>rrt=false,200)
+}
+function toggleRUP(){
+    rup = true;
+    setTimeout(()=>rup=false,200)
+}
+
+function toggleRDOWN(){
+    rdown = true;
+    setTimeout(()=>rdown=false,200)
 }
 
 function drawRAB(){
-    //rab = true
-    ctx.drawImage(img3,rightArm.x,rightArm.y,rightArm.width,rightArm.height)
+    rab = true;
+    ctx.drawImage(img3,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRRT(){
+    rrt = true;
+    ctx.drawImage(img4,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRUP(){
+    rup = true;
+    ctx.drawImage(img5,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
+}
+
+function drawRDOWN(){
+    rdown = true;
+    ctx.drawImage(img6,moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height)
 }
   
 function drawBag() {
@@ -304,7 +344,7 @@ function createFeelings(){
 class Cash{
     constructor(x, y, dx, dy, radius){
     this.x = x;
-    this.y = 10;
+    this.y = ballSpawnHeight;
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
@@ -389,15 +429,27 @@ createMountainRange(3, canvas.height - 300 , "#ff4da6");
 ctx.fillStyle = "#fff";
 ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 drawBag()
-drawRAC()
-drawLAC()
+// drawRAC()
+// drawLAC()
 init1()
 init2()
 checkStatus()
 
-// 
+//Player movement status checker
 if(rab){
     drawRAB()
+}
+
+if(rrt){
+    drawRRT()
+}
+
+if(rup){
+    drawRUP()
+}
+
+if(rdown){
+    drawRDOWN()
 }
 for (var i = 0; i < circleArray.length; i++){
     circleArray[i].update();
@@ -409,24 +461,25 @@ for (var i = 0; i < cashArray.length; i++){
 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+      case 38: moneyBag.y-=20;toggleRUP();//rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
                 break;
-      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+      case 40: moneyBag.y+=20;toggleRDOWN();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
             break;
       case 37: if (moneyBag.x > 50){
-        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+        moneyBag.x-=20; toggleRAB();// rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
             break;}
         else {
-          moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
+          moneyBag.x === 30;//rightArm.x===80;rightArm.x===0;
+           break;
         }
       case 39: if (moneyBag.x <= canvas.width-100){
-          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+          moneyBag.x+=20;toggleRRT();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
           break;
       } else {
-        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+        moneyBag.x === canvas.width-80;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
         break;
       }
-      case 32: toggleRAB();//console.log("space bar hit");
+      case 32: //console.log("space bar hit");
       break;
     }
   }
