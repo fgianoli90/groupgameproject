@@ -8,7 +8,10 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: black;
+    /* background-color: black; */
+    background-image: url("./images/hardrock\ guitar.png");
+    background-size: cover;
+    background-repeat: repeat;
     
 }
 header {
@@ -33,7 +36,7 @@ header {
     animation: glow 1s ease-in-out infinite alternate;
   }
   
-  @-webkit-keyframes glow {
+  @keyframes glow {
     from {
       text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
     }
@@ -41,11 +44,27 @@ header {
       text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
     }
   }
+.glow2 {
+    color: #fff;
+    text-align: center;
+    -webkit-animation: glow2 1s ease-in-out infinite alternate;
+    -moz-animation: glow2 1s ease-in-out infinite alternate;
+    animation: glow2 1s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow2 {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #101aad, 0 0 40px #101aad, 0 0 50px #101aad, 0 0 60px #101aad, 0 0 70px #101aad;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #6a8ccc, 0 0 40px #6a8ccc, 0 0 50px #6a8ccc, 0 0 60px #6a8ccc, 0 0 70px #6a8ccc, 0 0 80px #6ab8cc;
+    }
+  }
+
 
 body button {
     font-size: 30px;
-    background-color: none;
-    color: #fff;
+    background-color: darkslateblue;
     padding: 10px 20px;
     border: 0;
     box-shadow: 0;
@@ -58,4 +77,5 @@ body button {
       font-family: cursive;
       font-size: 2rem;
       color: white;
+      padding: 10px;
   }

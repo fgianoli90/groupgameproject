@@ -5,9 +5,9 @@
 
 //var ctx = canvas.getContext('2d');
 
-var gameOver = function() {}
+var doGameOver = function() {}
 
-gameOver.prototype = {
+doGameOver.prototype = {
     create: function() {
         var style = {
             font: "32px Monospace",
