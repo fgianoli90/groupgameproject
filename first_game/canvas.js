@@ -23,6 +23,12 @@ var ctx = canvas.getContext('2d');
 var img = new Image(); //load an image element
 var img1 = new Image();
 var img2 = new Image();
+let score=0
+var gamelives= []
+var kimCryEmoji= new Image();
+var jordanCryEmoji= new Image();
+var northWestCryEmoji= new Image();
+
 let loop=window.requestAnimationFrame(animate)
 
 function startGame(){
@@ -34,14 +40,32 @@ function startGame(){
     img1.onload = function() {  //Load the moneyBag for the first time 
         ctx.drawImage(img1, leftArm.x, leftArm.y, leftArm.width, leftArm.height);
      };
-     img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
-     img2.onload = function() {  //Load the moneyBag for the first time 
+    img1.src = "./images/image-cartoon-human-gloves-hand-arm.jpg";
+    img2.onload = function() {  //Load the moneyBag for the first time 
         ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
      };
      img2.src = "./images/right-slant-up.jpg";
-    drawBoard()
     
+    
+    kimCryEmoji.onload= function() {
+        ctx.drawImage(kimCryEmoji,life1.x,life1.y,life1.width,life1.height)
+    }
+    kimCryEmoji.src="./images/kimCry.png";
+    gamelives.push(kimCryEmoji)
+    jordanCryEmoji.onload= function() {
+        ctx.drawImage(jordanCryEmoji,life2.x,life2.y,life2.width,life2.height)
+    }
+    jordanCryEmoji.src="./images/jordanCry.jpg";
+    gamelives.push(jordanCryEmoji)
+    northWestCryEmoji.onload= function() {
+        ctx.drawImage(northWestCryEmoji,life3.x,life3.y,life3.width,life3.height)
+    }
+    northWestCryEmoji.src="./images/NorthWest.jpg";
+    gamelives.push(northWestCryEmoji)
+    drawBoard()
     var divs = document.getElementsByTagName("div");
+    document.querySelector("header").innerText=`Score: ${score}`
+    document.querySelector("header").style.fontSize="30px"
     document.querySelector("p").style.fontSize="20px"
     document.querySelector("p").style.backgroundColor="black"
     document.querySelector(".game-intro").style.marginTop="0"
@@ -52,7 +76,25 @@ function startGame(){
 function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
-
+var emojiLives=[
+    {
+    x:canvas.width-140,
+    y:0,
+    width: 40,
+    height: 40
+},
+{
+    x:canvas.width-90,
+    y:0,
+    width: 40,
+    height: 40
+},
+{
+    x:canvas.width-40,
+    y:0,
+    width: 40,
+    height: 40
+}]
 let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
@@ -87,13 +129,18 @@ function toggleRAB(){
 }
 
 function drawRAB(){
-    //rab = true
     ctx.drawImage(img3,rightArm.x,rightArm.y,rightArm.width,rightArm.height)
 }
   
 function drawBag() {
     ctx.drawImage(img, moneyBag.x, moneyBag.y, moneyBag.width, moneyBag.height); //draws the moneyBag depending on the coords in the obj above 
-  }
+}
+
+function drawGameLives(){
+    for (i=0;i<emojiLives.length;i++){
+        ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
+    }
+}
   
 var mouse = {
     x: undefined,
@@ -125,21 +172,12 @@ let moneyWings = new Image();
 moneyWings.src = './images/moneywings.png';
 moneyArray.push(moneyWings);
 
-
-
-// // Array Logic
-// var arrArray = [rand1, rand2]
-
-// var rand1 = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
-// var rand2 = moneyArray[Math.floor(Math.random() * moneyArray.length)];
-
-
 //Event Listeners
 window.addEventListener('mousemove', //Is it in current use?
 function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    console.log(mouse)
+    // console.log(mouse)
 })
 
 let gameWidth = canvas.width
@@ -169,10 +207,10 @@ class Circle{
             ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
         };
         update() {
-            if (this.x + this.radius > innerWidth || this.x - this.radius < 0){   
+            if (this.x + this.radius > canvas.width || this.x < this.radius){   
                 this.dx = -this.dx
             }
-            if (this.y + this.radius > innerHeight || this.y - this.radius < 0){   
+            if (this.y + this.radius > canvas.height || this.y < this.radius){   
                 this.dy = -this.dy
             }
             this.x += this.dx;
@@ -184,21 +222,7 @@ class Circle{
 //declare animate function and request itself to create the loop
 var circleArray = [];
 
-// function init(){
-//    for (var i = 0; i < 10; i++){
-//         var radius = Math.random() * 9 + 2;
-//         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
-//         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
-//         var dx = Math.random() - 0.5 * 2;   //create velocity variable
-//         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-//         // create a radius var so the bouce off the wall is cleaner
-//         console.log(new Circle(x, y, dx, dy, radius))
-//         new Circle(x, y, dx, dy, radius).draw()
-//         new Circle(x, y, dx, dy, radius).update()
-//         circleArray.push(new Circle(x, y, dx, dy, radius));
-//     }
-// console.log(circleArray)
-// }
+
 function init1(){
     circleArray.forEach(circle =>{
         circle.draw()
@@ -213,9 +237,6 @@ function createFeelings(){
         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
         var dx = Math.random() - 0.5 * 2;   //create velocity variable
         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-        // create a radius var so the bouce off the wall is cleaner
-        // new Circle(x, y, dx, dy, radius).draw()
-        // new Circle(x, y, dx, dy, radius).update()
         circleArray.push(new Circle(x, y, dx, dy, radius));
     }, 3000);
 }
@@ -245,10 +266,10 @@ class Cash{
         ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
     };
     update(){
-        if (this.x + this.radius > canvas.width || this.x - this.radius <= 0){   
+        if (this.x + this.radius > canvas.width || this.x <= this.radius){   
             this.dx = -this.dx
         }
-        if (this.y + this.radius > canvas.height || this.y - this.radius <= 0){   
+        if (this.y + this.radius > canvas.height || this.y <= this.radius){   
             this.dy = -this.dy
         }
         this.x += this.dx;
@@ -260,20 +281,6 @@ class Cash{
 //declare animate function and request itself to create the loop
 var cashArray = [];
 
-// function init2(){
-//     for (var i = 0; i < 30; i++){
-//          var radius = Math.random() * 9 + 2;
-//          var x = Math.random() * (canvas.width - radius * 2) + radius;   //random location for each spawn
-//          var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
-//          var dx = Math.random() - 0.5 * 2;   //create velocity variable
-//          var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-//          // create a radius var so the bouce off the wall is cleaner
-//         //  new Cash(x, y, dx, dy, radius).draw()
-//         //  new Cash(x, y, dx, dy, radius).update()
-//          cashArray.push(new Cash(x, y, dx, dy, radius));
-//      }
-//  console.log(cashArray)
-//  }
 function init2(){
     cashArray.forEach(cash =>{
     cash.draw()
@@ -288,9 +295,6 @@ setInterval(() => {
     var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
     var dx = Math.random() - 0.5 * 2;   //create velocity variable
     var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-    // create a radius var so the bouce off the wall is cleaner
-   //  new Cash(x, y, dx, dy, radius).draw()
-   //  new Cash(x, y, dx, dy, radius).update()
     cashArray.push(new Cash(x, y, dx, dy, radius))
 }, 2000)
 }
@@ -299,6 +303,7 @@ function animate(){
 loop=requestAnimationFrame(animate);
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBoard()
+drawGameLives()
 drawBag()
 drawRAC()
 drawLAC()
@@ -320,25 +325,36 @@ for (var i = 0; i < cashArray.length; i++){
 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+      case 38: if (moneyBag.y >= 20){
+                    moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+                    break;
+                }else{
+                    moneyBag.y-=0;rightArm.y-=0; leftArm.y-=0;
+                    break;
+                }
+      case 40: if (moneyBag.y <= canvas.height-100){
+                    moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+                    break;
+                }else{
+                    moneyBag.y+=0;rightArm.y+=0; leftArm.y+=0;
+                    break;
+                }
+
+      case 37: if(moneyBag.x > 50){
+                moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 break;
-      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
-            break;
-      case 37: if (moneyBag.x > 50){
-        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
-            break;}
-        else {
-          moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
-        }
+                }else {
+                moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
+                }
       case 39: if (moneyBag.x <= canvas.width-100){
-          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
-          break;
-      } else {
-        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
-        break;
-      }
+                moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                break;
+                } else {
+                moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+                break;
+                }
       case 32: toggleRAB();//console.log("space bar hit");
-      break;
+                break;
     }
   }
 
@@ -353,7 +369,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     }
 
 
-    let score=0
+    
     function checkStatus() {
         let status=true
         for (let i=0;i<circleArray.length;i++){  
@@ -371,6 +387,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
             if(collision(cash)){
             cashArray.splice(cashArray.indexOf(cash),1)
             score += 10
+            document.querySelector("header").innerText=`Score: ${score}`
             }
         })
     
