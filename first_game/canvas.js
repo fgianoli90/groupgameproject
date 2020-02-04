@@ -230,8 +230,8 @@ class Cash{
     this.dy = dy;
     this.radius = radius;
     this.minRadius = radius;
-    this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
-    this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+    this.stroke = moneyArray[Math.floor(Math.random() * moneyArray.length)];
+    this.color = moneyArray[Math.floor(Math.random() * moneyArray.length)];
     this.image = moneyArray[Math.floor(Math.random() * moneyArray.length)]; 
     }
     draw() {
@@ -304,8 +304,8 @@ drawRAC()
 drawLAC()
 init1()
 init2()
-checkGameOver()
-checkScore()
+checkStatus()
+
 // 
 if(rab){
     drawRAB()
@@ -316,67 +316,58 @@ for (var i = 0; i < circleArray.length; i++){
 for (var i = 0; i < cashArray.length; i++){
     cashArray[i].update();
 }
+}    
 
-
-// init();
-// animate();
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; console.log('up',  ); break;
-      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; console.log('down',); break;
+      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+                break;
+      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+            break;
       case 37: if (moneyBag.x > 50){
-        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;console.log('left',); break;}
+        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+            break;}
         else {
           moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
         }
       case 39: if (moneyBag.x <= canvas.width-100){
-          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; console.log('right'); break;
+          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+          break;
       } else {
-        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; break;
+        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+        break;
       }
-      case 32: toggleRAB();console.log("space bar hit");break;
+      case 32: toggleRAB();//console.log("space bar hit");
+      break;
     }
   }
-  function crashWith(feeling){ 
-    console.log("inside crashed")
-    return !(
-          moneyBag.x > feeling.x+feeling.radius ||
-          moneyBag.y > feeling.y+feeling.radius ||
-          moneyBag.x+moneyBag.width < feeling.x ||
-          moneyBag.y+moneyBag.height < feeling.y
-        );
-  }
-  function checkGameOver() {
-    
-    var crashed = circleArray.some(function(feeling) {
-      return crashWith(feeling);
-    });
-    console.log(crashed)
-    if (crashed) {
-        window.cancelAnimationFrame(loop)
-        
-    } 
-  }
-  function scoreWith(cash){ 
-    console.log("Stackin' Paper")
-    return !(
-          moneyBag.x > cash.x+cash.radius ||
-          moneyBag.y > cash.y+cash.radius ||
-          moneyBag.x+moneyBag.width < cash.x ||
-          moneyBag.y+moneyBag.height < cash.y
-        );
-  }
-  function checkScore() {
-    
-    var scored = cashArray.some(function(cash) {
-      return scoreWith(cash);
-    });
-    console.log(scored)
-    if (scored) {
-        cashArray.remove(cash);
-        cashArray.update();
-        
-    } 
-  }
 
+  function collision(object){ 
+    // console.log("inside crashed")
+    return !(
+          moneyBag.x > object.x+object.radius ||
+          moneyBag.y > object.y+object.radius ||
+          moneyBag.x+moneyBag.width < object.x ||
+          moneyBag.y+moneyBag.height < object.y
+        )
+    }
+    let score=0
+    function checkStatus() {
+
+    for (let i=0;i<circleArray.length;i++){  
+        if(collision(circleArray[i])){
+            console.log("feelings got me")
+            window.cancelAnimationFrame(loop)
+            // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+            i= circleArray.length
+        }
+    }
+    
+    cashArray.forEach(cash => {
+        if(collision(cash)){
+          cashArray.splice(cashArray.indexOf(cash),1)
+          score += 10
+        }
+    })
+    
 }
