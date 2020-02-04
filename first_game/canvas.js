@@ -53,6 +53,87 @@ function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
+function Star() {
+    this.radius = (Math.random() * 10) + 5;
+    this.x = this.radius + (canvas.width - this.radius * 2) * Math.random();
+    this.y = -10; 
+    this.dx = (Math.random() - 0.5) * 20;
+    this.dy = 30;
+    this.gravity = .5;
+    this.friction = .54;
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, Math.abs(this.radius), 0, Math.PI * 2, false);
+
+        ctx.shadowColor = '#E3EAEF';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "#E3EAEF";
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+    }
+}
+function createMountainRange(mountainAmount, height,  color) {
+    for (var i = 0; i < mountainAmount; i++) {
+        var mountainWidth = canvas.width / mountainAmount;
+
+        // Draw triangle
+        ctx.beginPath();
+        ctx.moveTo(i * mountainWidth, canvas.height);
+        ctx.lineTo(i * mountainWidth + mountainWidth + 325, canvas.height);
+
+        // Triangle peak
+        ctx.lineTo(i * mountainWidth + mountainWidth / 2, canvas.height - height);
+        ctx.lineTo(i * mountainWidth - 325, canvas.height);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+function MiniStar() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 3;
+
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+
+        ctx.shadowColor = 'yellow';
+        ctx.shadowBlur = (Math.random() * 10) + 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        ctx.closePath();	
+        ctx.restore();
+    }
+}
+var stars = [];
+		// var explosions = [];
+		var groundHeight = canvas.height * 0.15;
+		// var randomSpawnRate = Math.floor((Math.random() * 25) + 60)
+		var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
+		backgroundGradient.addColorStop(0,"#171e26");
+		backgroundGradient.addColorStop(1,"#ff4da6");
+
+		var miniStars = [];
+		for (var i = 0; i < 30; i++) {
+			miniStars.push(new MiniStar());
+		}
+
+
+
+
+
 let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
@@ -217,12 +298,7 @@ function createFeelings(){
         // new Circle(x, y, dx, dy, radius).draw()
         // new Circle(x, y, dx, dy, radius).update()
         circleArray.push(new Circle(x, y, dx, dy, radius));
-<<<<<<< HEAD
-    }
-// console.log(circleArray)
-=======
     }, 3000);
->>>>>>> a4a20bbe491bc11caf29a40fe0bd8b8e5563643e
 }
 
 
@@ -280,19 +356,6 @@ var cashArray = [];
 //  console.log(cashArray)
 //  }
 function init2(){
-<<<<<<< HEAD
-    for (var i = 0; i < 30; i++){
-         var radius = Math.random() * 9 + 2;
-         var x = Math.random() * (innerWidth - radius * 2) + radius;   //random location for each spawn
-         var y = Math.random() * ((innerHeight- 300) - radius * 2) + radius;
-         var dx = Math.random() - 0.5 * 2;   //create velocity variable
-         var dy = Math.random() - 0.5 * 2;  //randomize initial direction
-         // create a radius var so the bouce off the wall is cleaner
-         cashArray.push(new Cash(x, y, dx, dy, radius));
-     }
-//  console.log(cashArray)
- }
-=======
     cashArray.forEach(cash =>{
     cash.draw()
     cash.update()
@@ -312,12 +375,21 @@ setInterval(() => {
     cashArray.push(new Cash(x, y, dx, dy, radius))
 }, 2000)
 }
->>>>>>> a4a20bbe491bc11caf29a40fe0bd8b8e5563643e
 
 function animate(){
 loop=requestAnimationFrame(animate);
+ctx.fillStyle = backgroundGradient;
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBoard()
+for (var i = 0; i < miniStars.length; i++) {
+    miniStars[i].draw();
+}
+createMountainRange(1, canvas.height - 50, "#fff");
+createMountainRange(2, canvas.height - 100,  "#e60073");
+createMountainRange(3, canvas.height - 300 , "#ff4da6");
+
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 drawBag()
 drawRAC()
 drawLAC()
@@ -325,6 +397,7 @@ init1()
 init2()
 checkGameOver()
 checkScore()
+
 // 
 if(rab){
     drawRAB()
