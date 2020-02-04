@@ -1,6 +1,8 @@
 function startGame(){
   // console.log("START");
   //Load the avatarGirl for the first time
+  
+  
   img.onload = function() {   
      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
   };
@@ -9,20 +11,28 @@ function startGame(){
   kimCryEmoji.onload= function() {
       ctx.drawImage(kimCryEmoji,emojiLives[0].x,emojiLives[0].y,emojiLives[0].width,emojiLives[0].height)
   }
-  kimCryEmoji.src="./images/kimCry.png";
+  kimCryEmoji.src="./images/kkimg.png";
   gamelives.push(kimCryEmoji)
   jordanCryEmoji.onload= function() {
       ctx.drawImage(jordanCryEmoji,emojiLives[1].x,emojiLives[1].y,emojiLives[1].width,emojiLives[1].height)
   }
-  jordanCryEmoji.src="./images/jordanCry.jpg";
+  jordanCryEmoji.src="./images/jordanCry.png";
   gamelives.push(jordanCryEmoji)
   northWestCryEmoji.onload= function() {
       ctx.drawImage(northWestCryEmoji,emojiLives[2].x,emojiLives[2].y,emojiLives[2].width,emojiLives[2].height)
   }
-  northWestCryEmoji.src="./images/NorthWest.jpg";
+  northWestCryEmoji.src="./images/dawson.png";
   gamelives.push(northWestCryEmoji)
   
   drawBoard()
+
+  //Sound Components
+  var myMusic;
+  myMusic = new sound("/audio/background.mp3");
+  mySound = new sound("/audio/trimmed.mp3");
+  myMusic.play();
+
+
   //Reassign order of divs to get canvas to center
   var divs = document.getElementsByTagName("div");
   divs[0].parentNode.appendChild(divs[0]);
@@ -36,6 +46,7 @@ function startGame(){
 
   //Starts the animation infinite loop
   window.requestAnimationFrame(animate) 
+  
 }
 
 function drawBoard(){
@@ -110,14 +121,14 @@ function checkStatus() {
 document.onkeydown = function(e) { //controls -- up down left and right ... 
   switch (e.keyCode) {
     case 38: if (avatarGirl.y > canvas.height-130){
-                  avatarGirl.y-=20;toggleRUP()//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
+                  avatarGirl.y-=20;toggleRUP();mySound.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
                   break;
               }else{
                   avatarGirl.y=canvas.height-150;//rightArm.y-=0; leftArm.y-=0;
                   break;
               }
     case 40: if (avatarGirl.y <= canvas.height-110){
-                  avatarGirl.y+=20;toggleRDOWN()//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+                  avatarGirl.y+=20;toggleRDOWN();mySound.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
                   break;
               }else{
                   avatarGirl.y=canvas.height-90;//rightArm.y+=0; leftArm.y+=0;
@@ -128,7 +139,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
                 if (avatarGirl.y<canvas.height-150){
                   avatarGirl.x-=2;toggleRRT();
                 }else{
-                avatarGirl.x-=20; toggleRAB();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                avatarGirl.x-=20; toggleRAB();mySound.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 }break;
               }else {
               avatarGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
@@ -137,7 +148,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
                 if (avatarGirl.y<canvas.height-150){
                   avatarGirl.x+=2;toggleRRT();
                 }else{
-                  avatarGirl.x+=20;toggleRRT();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                  avatarGirl.x+=20;toggleRRT();mySound.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
               } break;
               } else {
               avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
@@ -241,6 +252,23 @@ function drawGameLives(){
     ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
   }
 }
+
+//Sound constructor
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
 
 //Event Listeners
 window.addEventListener('mousemove', //Is it in current use?

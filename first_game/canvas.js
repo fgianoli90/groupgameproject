@@ -277,8 +277,3 @@ if(rdown){
     drawRDOWN()
 }
 }
- //End of animate function   
-
-
-
-  
