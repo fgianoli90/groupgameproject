@@ -123,7 +123,7 @@ var stars = [];
 		// var randomSpawnRate = Math.floor((Math.random() * 25) + 60)
 		var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
 		backgroundGradient.addColorStop(0,"#171e26");
-		backgroundGradient.addColorStop(1,"#ff4da6");
+		backgroundGradient.addColorStop(1,"#00CCFF");
 
 		var miniStars = [];
 		for (var i = 0; i < 30; i++) {
@@ -423,10 +423,10 @@ for (var i = 0; i < miniStars.length; i++) {
     miniStars[i].draw();
 }
 createMountainRange(1, canvas.height - 50, "#fff");
-createMountainRange(2, canvas.height - 100,  "#e60073");
-createMountainRange(3, canvas.height - 300 , "#ff4da6");
+createMountainRange(2, canvas.height - 100,  "#669999");
+createMountainRange(3, canvas.height - 300 , "#00CCFF");
 
-ctx.fillStyle = "#fff";
+ctx.fillStyle = "#FECE90";
 ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 drawBag()
 // drawRAC()
