@@ -199,7 +199,7 @@ feelingsArray.push(hearts);
 
 //Money Array
 let moneyEmoji = new Image();
-moneyEmoji.src = './images/money.png';
+moneyEmoji.src = './images/coin3.png';
 moneyArray.push(moneyEmoji);
 
 let moneyWings = new Image();
@@ -223,14 +223,12 @@ function(event){
     // console.log(mouse)
 })
 
-let gameWidth = canvas.width
-let gameHeight = canvas.height
-
+var ballSpawnHeight = 10;
 
 class Circle{
     constructor(x, y, dx, dy, radius){
         this.x = x;
-        this.y = 10;
+        this.y = ballSpawnHeight;
         this.dx = dx;
         this.dy = dy;
         this.radius = radius;
@@ -395,12 +393,7 @@ drawRAC()
 drawLAC()
 init1()
 init2()
-<<<<<<< HEAD
-checkGameOver()
-checkScore()
-=======
 checkStatus()
->>>>>>> edc27656687eb55bea4d6c287c8f08d7499a7425
 
 // 
 if(rab){
@@ -437,52 +430,6 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
       break;
     }
   }
-<<<<<<< HEAD
-  function crashWith(feeling){ 
-    // console.log("inside crashed")
-    return !(
-          moneyBag.x > feeling.x+feeling.radius ||
-          moneyBag.y > feeling.y+feeling.radius ||
-          moneyBag.x+moneyBag.width < feeling.x ||
-          moneyBag.y+moneyBag.height < feeling.y
-        );
-  }
-  function checkGameOver() {
-    
-    var crashed = circleArray.some(function(feeling) {
-      return crashWith(feeling);
-    });
-    // console.log(crashed)
-    if (crashed) {
-        window.cancelAnimationFrame(loop)
-        
-    } 
-  }
-  function scoreWith(cash){ 
-    // console.log("Stackin' Paper")
-    return !(
-          moneyBag.x > cash.x+cash.radius ||
-          moneyBag.y > cash.y+cash.radius ||
-          moneyBag.x+moneyBag.width < cash.x ||
-          moneyBag.y+moneyBag.height < cash.y
-        );
-  }
-  function checkScore() {
-    
-    var scored = cashArray.some(function(cash) {
-      return scoreWith(cash);
-    });
-    console.log(scored)
-    if (scored) {
-        cashArray.splice(0, 1);
-        return;
-        // cashArray.remove(newCash);
-        // cashArray.update();
-        
-    } 
-  }
-
-=======
 
   function collision(object){ 
     // console.log("inside crashed")
@@ -516,5 +463,4 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
             }
         })
     
->>>>>>> edc27656687eb55bea4d6c287c8f08d7499a7425
 }
