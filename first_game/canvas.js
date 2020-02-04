@@ -28,6 +28,7 @@ var gamelives= []
 var kimCryEmoji= new Image();
 var jordanCryEmoji= new Image();
 var northWestCryEmoji= new Image();
+var myMusic;
 
 let loop=window.requestAnimationFrame(animate)
 
@@ -45,24 +46,28 @@ function startGame(){
     //     ctx.drawImage(img2, rightArm.x, rightArm.y, rightArm.width, rightArm.height);
     //  };
     //  img2.src = "./images/right-slant-up.jpg";
+    
     drawBoard()
+    
     
     
     kimCryEmoji.onload= function() {
         ctx.drawImage(kimCryEmoji,life1.x,life1.y,life1.width,life1.height)
     }
-    kimCryEmoji.src="./images/kimCry.png";
+    kimCryEmoji.src="./images/kkimg.png";
     gamelives.push(kimCryEmoji)
     jordanCryEmoji.onload= function() {
         ctx.drawImage(jordanCryEmoji,life2.x,life2.y,life2.width,life2.height)
     }
-    jordanCryEmoji.src="./images/jordanCry.jpg";
+    jordanCryEmoji.src="./images/jordanCry.png";
     gamelives.push(jordanCryEmoji)
     northWestCryEmoji.onload= function() {
         ctx.drawImage(northWestCryEmoji,life3.x,life3.y,life3.width,life3.height)
     }
-    northWestCryEmoji.src="./images/NorthWest.jpg";
+    northWestCryEmoji.src="./images/dawson.png";
     gamelives.push(northWestCryEmoji)
+    
+    
     drawBoard()
     var divs = document.getElementsByTagName("div");
     document.querySelector("header").innerText=`Score: ${score}`
@@ -142,14 +147,14 @@ function createMountainRange(mountainAmount, height,  color) {
 function MiniStar() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.radius = Math.random() * 3;
+    this.radius = Math.random() * 9;
 
     this.draw = function() {
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 
-        ctx.shadowColor = 'yellow';
+        ctx.shadowColor = '#FF6666';
         ctx.shadowBlur = (Math.random() * 10) + 10;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
@@ -519,7 +524,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
             if(collision(circleArray[i])){
                 console.log("feelings got me")
                 window.cancelAnimationFrame(loop)
-                // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+                circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
                 i= circleArray.length
                 doGameOver(ctx)
                 console.log("doGameover")
