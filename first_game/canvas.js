@@ -311,8 +311,8 @@ class Cash{
     this.dy = dy;
     this.radius = radius;
     this.minRadius = radius;
-    this.stroke = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
-    this.color = feelingsArray[Math.floor(Math.random() * feelingsArray.length)];
+    this.stroke = moneyArray[Math.floor(Math.random() * moneyArray.length)];
+    this.color = moneyArray[Math.floor(Math.random() * moneyArray.length)];
     this.image = moneyArray[Math.floor(Math.random() * moneyArray.length)]; 
     }
     draw() {
@@ -395,8 +395,12 @@ drawRAC()
 drawLAC()
 init1()
 init2()
+<<<<<<< HEAD
 checkGameOver()
 checkScore()
+=======
+checkStatus()
+>>>>>>> edc27656687eb55bea4d6c287c8f08d7499a7425
 
 // 
 if(rab){
@@ -408,27 +412,32 @@ for (var i = 0; i < circleArray.length; i++){
 for (var i = 0; i < cashArray.length; i++){
     cashArray[i].update();
 }
+}    
 
-
-// init();
-// animate();
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
-      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; console.log('up',  ); break;
-      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; console.log('down',); break;
+      case 38: moneyBag.y-=20;rightArm.y-=20; leftArm.y-=20; //console.log('up',  );
+                break;
+      case 40: moneyBag.y+=20;rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+            break;
       case 37: if (moneyBag.x > 50){
-        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;console.log('left',); break;}
+        moneyBag.x-=20; rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+            break;}
         else {
           moneyBag.x === 30;rightArm.x===80;rightArm.x===0; break;
         }
       case 39: if (moneyBag.x <= canvas.width-100){
-          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; console.log('right'); break;
+          moneyBag.x+=20;rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+          break;
       } else {
-        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; break;
+        moneyBag.x === canvas.width-80;rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+        break;
       }
-      case 32: toggleRAB();console.log("space bar hit");break;
+      case 32: toggleRAB();//console.log("space bar hit");
+      break;
     }
   }
+<<<<<<< HEAD
   function crashWith(feeling){ 
     // console.log("inside crashed")
     return !(
@@ -473,4 +482,39 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     } 
   }
 
+=======
+
+  function collision(object){ 
+    // console.log("inside crashed")
+    return !(
+          moneyBag.x > object.x+object.radius ||
+          moneyBag.y > object.y+object.radius ||
+          moneyBag.x+moneyBag.width < object.x ||
+          moneyBag.y+moneyBag.height < object.y
+        )
+    }
+
+
+    let score=0
+    function checkStatus() {
+        let status=true
+        for (let i=0;i<circleArray.length;i++){  
+            if(collision(circleArray[i])){
+                console.log("feelings got me")
+                window.cancelAnimationFrame(loop)
+                // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+                i= circleArray.length
+                doGameOver(ctx)
+                console.log("doGameover")
+            }
+        }
+        
+        cashArray.forEach(cash => {
+            if(collision(cash)){
+            cashArray.splice(cashArray.indexOf(cash),1)
+            score += 10
+            }
+        })
+    
+>>>>>>> edc27656687eb55bea4d6c287c8f08d7499a7425
 }
