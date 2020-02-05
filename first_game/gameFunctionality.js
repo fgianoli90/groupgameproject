@@ -30,6 +30,7 @@ function startGame(){
   var myMusic;
   myMusic = new sound("/audio/background.mp3");
   mySound = new sound("/audio/trimmed.mp3");
+  myCoin = new sound("/audio/Coin-sound.mp3");
   myMusic.play();
 
 
@@ -265,7 +266,7 @@ function sound(src) {
     this.sound.play();
   }
   this.stop = function(){
-    this.sound.pause();
+    this.sound.v
   }
 }
 
