@@ -92,33 +92,7 @@ let img6=new Image()
 img6.src="./images/girl_movements/move_down.png"
 let rdown = false; 
 
-//Declare Classes
-class Star{
-    constructor(){
-    this.radius = (Math.random() * 10) + 5;
-    this.x = this.radius + (canvas.width - this.radius * 2) * Math.random();
-    this.y = -10; 
-    this.dx = (Math.random() - 0.5) * 20;
-    this.dy = 30;
-    this.gravity = .5;
-    this.friction = .54;
-    }
-    draw() {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, Math.abs(this.radius), 0, Math.PI * 2, false);
-
-        ctx.shadowColor = '#E3EAEF';
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-
-        ctx.fillStyle = "#E3EAEF";
-        ctx.fill();
-        ctx.closePath();
-        ctx.restore();
-    }
-}
+// Declare Classes
 
 class MiniStar{
     constructor(){
@@ -236,7 +210,7 @@ var myMusic;
 myMusic = new sound("./audio/dance.mp3");
 myMusic.play();
 
-var stars = [];
+
 
 var groundHeight = canvas.height * 0.15;
 
@@ -289,6 +263,8 @@ drawGameLives()
 for (var i = 0; i < miniStars.length; i++) {
     miniStars[i].draw();
 }
+
+
 
 createMountainRange(1, canvas.height - 50, "#fff");
 createMountainRange(2, canvas.height - 100,  "#669999");
