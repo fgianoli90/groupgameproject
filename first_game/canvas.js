@@ -18,13 +18,14 @@ var ctx = canvas.getContext('2d');
 var img = new Image(); 
 var img1 = new Image();
 var img2 = new Image();
-var kimCryEmoji= new Image();
-var jordanCryEmoji= new Image();
-var northWestCryEmoji= new Image();
+var girlLife1= new Image();
+var girlLife2= new Image();
+var girlLife3= new Image();
 
 //Declare variables
 let loop
 let score=0;
+let inAir=false;
 var gamelives= [];
 var cashArray = [];
 var circleArray = [];
@@ -33,24 +34,44 @@ var moneyArray = [];
 
 // Feelings Array
 let smiley = new Image();
-smiley.src = './images/smiley.png';
+smiley.src = './images/cryFace.png';
 feelingsArray.push(smiley);
 
 let smiley2 = new Image();
-smiley2.src = './images/heart-eyes.png';
+smiley2.src = './images/heartEyes.png';
 feelingsArray.push(smiley2);
 
-let hearts = new Image();
-hearts.src = './images/hearts.png';
-feelingsArray.push(hearts);
+let smiley3 = new Image();
+smiley3.src = './images/noseFume.png';
+feelingsArray.push(smiley3);
+
+let smiley4 = new Image();
+smiley4.src = './images/screamFace.png';
+feelingsArray.push(smiley4);
+
+let smiley5 = new Image();
+smiley5.src = './images/scrunchFace.png';
+feelingsArray.push(smiley5);
+
+let smiley6 = new Image();
+smiley6.src = './images/madFace.png';
+feelingsArray.push(smiley6);
+
+let smiley7 = new Image();
+smiley7.src = './images/kissyFace.png';
+feelingsArray.push(smiley7);
 
 //Money Array
-let moneyEmoji = new Image();
-moneyEmoji.src = './images/coin3.png';
-moneyArray.push(moneyEmoji);
+let coinEmoji1 = new Image();
+coinEmoji1.src = './images/coinOne.png';
+moneyArray.push(coinEmoji1);
+
+let coinEmoji2 = new Image();
+coinEmoji2.src = './images/coinThumb.png';
+moneyArray.push(coinEmoji2);
 
 let moneyWings = new Image();
-moneyWings.src = './images/moneywings.png';
+moneyWings.src = './images/moneyFlying.png';
 moneyArray.push(moneyWings);
 
 
@@ -143,13 +164,13 @@ class Circle{
             ctx.strokeStyle = this.stroke;
             // ctx.fillStyle = this.color;
             // ctx.fill();
-            ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
+            ctx.drawImage(this.image, this.x - 24, this.y - 24, 40, 40)
         };
         update() {
             if (this.x + this.radius > canvas.width || this.x < this.radius){   
                 this.dx = -this.dx
             }
-            if (this.y + this.radius > canvas.height || this.y < this.radius){   
+            if (this.y + this.radius > canvas.height-80 || this.y < this.radius){   
                 this.dy = -this.dy
             }
             this.x += this.dx;
@@ -178,13 +199,13 @@ class Cash{
         ctx.strokeStyle = this.stroke;
         // ctx.fillStyle = this.color;
         // ctx.fill();
-        ctx.drawImage(this.image, this.x - 24, this.y - 24, 50, 50)
+        ctx.drawImage(this.image, this.x - 24, this.y - 24, 40, 40)
     };
     update(){
         if (this.x + this.radius > canvas.width || this.x <= this.radius){   
             this.dx = -this.dx
         }
-        if (this.y + this.radius > canvas.height || this.y <= this.radius){   
+        if (this.y <= this.radius){   //this.y + this.radius > canvas.height || 
             this.dy = -this.dy
         }
         this.x += this.dx;
@@ -210,8 +231,9 @@ class sound {
       this.sound.pause();
     }
   }
+
 var myMusic;
-myMusic = new sound("./audio/background.mp3");
+myMusic = new sound("./audio/dance.mp3");
 myMusic.play();
 
 var stars = [];
@@ -236,7 +258,7 @@ var ballSpawnHeight = 10;
 
 function createFeelings(){
     setInterval(() => {
-        var radius = Math.random() * 9 //+ 2;
+        var radius = Math.random() * 9 + 2;
         var x = Math.random() * (canvas.width - radius * 2) + radius;   //random location for each spawn
         var y = Math.random() * ((canvas.height- 300) - radius * 2) + radius;
         var dx = Math.random() - 0.5 * 2;   //create velocity variable

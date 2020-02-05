@@ -7,21 +7,21 @@ function startGame(){
   img.src = "./images/girl_movements/Idle.png";   
   
   //Load the emojiLives for the first time
-  kimCryEmoji.onload= function() {
-      ctx.drawImage(kimCryEmoji,emojiLives[0].x,emojiLives[0].y,emojiLives[0].width,emojiLives[0].height)
+  girlLife1.onload= function() {
+      ctx.drawImage(girlLife1,emojiLives[0].x,emojiLives[0].y,emojiLives[0].width,emojiLives[0].height)
   }
-  kimCryEmoji.src="./images/kkimg.png";
-  gamelives.push(kimCryEmoji)
-  jordanCryEmoji.onload= function() {
-      ctx.drawImage(jordanCryEmoji,emojiLives[1].x,emojiLives[1].y,emojiLives[1].width,emojiLives[1].height)
+  girlLife1.src="./images/girl_movements/Idle.png";
+  gamelives.push(girlLife1)
+  girlLife2.onload= function() {
+      ctx.drawImage(girlLife2,emojiLives[1].x,emojiLives[1].y,emojiLives[1].width,emojiLives[1].height)
   }
-  jordanCryEmoji.src="./images/jordanCry.png";
-  gamelives.push(jordanCryEmoji)
-  northWestCryEmoji.onload= function() {
-      ctx.drawImage(northWestCryEmoji,emojiLives[2].x,emojiLives[2].y,emojiLives[2].width,emojiLives[2].height)
+  girlLife2.src="./images/girl_movements/Idle.png";
+  gamelives.push(girlLife2)
+  girlLife3.onload= function() {
+      ctx.drawImage(girlLife3,emojiLives[2].x,emojiLives[2].y,emojiLives[2].width,emojiLives[2].height)
   }
-  northWestCryEmoji.src="./images/dawson.png";
-  gamelives.push(northWestCryEmoji)
+  girlLife3.src="./images/girl_movements/Idle.png";
+  gamelives.push(girlLife3)
   
   drawBoard()
 
@@ -31,7 +31,7 @@ function startGame(){
   myMoney= new sound("./audio/coin10.wav");
   myDeath= new sound("./audio/death.wav");
   myGameEnd= new sound("./audio/round_end.wav")
-  myBackground= new sound("./audio/main_theme_01.wav")
+  myBackground= new sound("./audio/dance.mp3")
   myBackground.play()
 
 
@@ -97,21 +97,25 @@ function collision(object){
       )
   }
 
+let numOfLives=0  
 function checkStatus() {
       
       for (let i=0;i<circleArray.length;i++){  
-          if(collision(circleArray[i])){
-              console.log("feelings got me")
-              myBackground.stop()
+        if(collision(circleArray[i])){
+              // console.log("feelings got me")
               myDeath.play()
-              myGameEnd.play()
-              window.cancelAnimationFrame(loop)
-              // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
-              i= circleArray.length
-              doGameOver(ctx)
-              console.log("doGameover")
-          }
-      }
+              // myBackground.stop()
+              // myGameEnd.play()
+              // window.cancelAnimationFrame(loop)
+              circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+              // i= circleArray.length
+              // doGameOver(ctx)
+              emojiLives.pop()
+              numOfLives++
+              }
+            }
+          
+      
       
       cashArray.forEach(cash => {
           if(collision(cash)){
@@ -121,7 +125,13 @@ function checkStatus() {
           document.querySelector("header").innerText=`Score: ${score}`
           }
       })
-  
+
+      if (numOfLives>=3){
+        myBackground.stop()
+        myGameEnd.play()
+        window.cancelAnimationFrame(loop)
+        doGameOver(ctx)
+      }
 }
 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
@@ -143,7 +153,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
 
     case 37: if(avatarGirl.x >= 20){
                 if (avatarGirl.y<canvas.height-150){
-                  avatarGirl.x-=2;toggleRRT();
+                  avatarGirl.x-=3;inAir=true;toggleRRT();
                 }else{
                 avatarGirl.x-=20; toggleRAB();myWalk.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 }break;
@@ -152,7 +162,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
               }
     case 39: if (avatarGirl.x <= canvas.width-80){
                 if (avatarGirl.y<canvas.height-150){
-                  avatarGirl.x+=2;toggleRRT();
+                  avatarGirl.x+=3;inAir=true; toggleRRT();
                 }else{
                   avatarGirl.x+=20;toggleRRT();myWalk.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
               } break;
@@ -160,9 +170,11 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
               avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
               break;
               }
-    case 32: jump();myJump.play()//console.log("space bar hit");
+    case 32: if (!(avatarGirl.y < canvas.height-150)){jump();myJump.play()//console.log("space bar hit");
               break;
-}}
+              }
+  }
+}
 
 
 function jump(){
@@ -171,21 +183,21 @@ function jump(){
   let j = setInterval(()=>{
     ghettoGravity-=.05;
     ghettoGravity = Math.max(0.2, ghettoGravity)
-    avatarGirl.y-=10*ghettoGravity;
-    if(avatarGirl.y <peak){
+    avatarGirl.y-=20*ghettoGravity;
+    if(avatarGirl.y <peak || inAir){
       clearInterval(j)
       fall()
     }
   },1)
 }
 function fall(){
-  console.log("fall")
-  let ghettoGravity = .2;
+  let ghettoGravity = .5;
   let k = setInterval(()=>{
     ghettoGravity+=.05
-    avatarGirl.y+=10*ghettoGravity;
+    avatarGirl.y+=25*ghettoGravity;
     if(avatarGirl.y >= canvas.height-150){
       clearInterval(k)
+      inAir=false;
     }
   },1)
 }
@@ -270,6 +282,6 @@ function(event){
 window.addEventListener('resize', function(){
   canvas.width = window.outerWidth/1.5; // Sets our canvas to browsers current dimensions
   canvas.height = window.outerHeight/1.8;
-  init();
-  init2();
+  drawFeelings();
+  drawCash();
   })
