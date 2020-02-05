@@ -70,9 +70,9 @@ let coinEmoji2 = new Image();
 coinEmoji2.src = './images/coinThumb.png';
 moneyArray.push(coinEmoji2);
 
-let moneyWings = new Image();
-moneyWings.src = './images/moneyFlying.png';
-moneyArray.push(moneyWings);
+let coinEmoji3 = new Image();
+coinEmoji3.src = './images/moneyCrown.png';
+moneyArray.push(coinEmoji3);
 
 
 //declare avatarGirl images
