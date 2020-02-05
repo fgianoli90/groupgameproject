@@ -4,37 +4,43 @@
 //canvas.height = window.innerHeight/1.5;
 
 //var ctx = canvas.getContext('2d');
-
- var doGameOver = function(ctx){
-   // ctx.clearRect(0,0,canvas.width, canvas.height)
-   
+let playover=true
+ let doGameOver = function(ctx) {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    ctx.fillText('Game Over',200,204);
     ctx.font = '48px serif';
-    ctx.fillText('Game Over',200,204,);
-   // ctx.fillText("you got feelings")
-    ctx.fillStyle = "white";
-    
+    console.log("remove1")
+    document.querySelector(".glow2").remove()
+    console.log("remove2")
+    document.querySelector(".arrows-img").remove()
+    let btn = document.createElement("BUTTON");
+    btn.innerHTML = "Restart";
+    document.querySelector(".game-intro").appendChild(btn)
+    playover=false
+
  };
- var btn = document.createElement("BUTTON");
- btn.innerHTML = "Restart";
+  
+//  let restart= function(){ 
+//  let btn = document.createElement("BUTTON");
+//  btn.innerHTML = "Restart";
+//  var divs=document.getElementsByTagName("div");
+//  divs[1]=btn
+//  document.body.appendChild(btn);s
  
- document.body.appendChild(btn);
  
-
-  document.querySelector("body > button").onclick = function(){
-    moneyBag.x = canvas.width / 2;
-    moneyBag.y = canvas.height * 6/7;
-    rightArm.x=canvas.width / 2+50;
-    rightArm.y=canvas.height * 6/7-30;
-    leftArm.x= canvas.width / 2-30;
-    leftArm.y= canvas.height * 6/7-30;
-
-    // ctx.rightArm(canvas.width / 2+50,canvas.height * 6/7-30, 30, 80)
-    // ctx.leftArm((canvas.width / 2)-30,(canvas.height * 6/7)-30,30, 80)
+ 
+     
+ 
+ 
+if (!playover){
+ document.querySelector("body > button").onclick = function(){
+   // avatarGirl.x = canvas.width / 2;
+   // avatarGirl.y = canvas.height-90;
    
-      
-   // this.remove()
-   startGame(); //calls startGame  
-  // createFeelings();
-  //  createCash();
-   
+
+  startGame(); //calls startGame  
+  animate()
  }
+}
+
+ 
