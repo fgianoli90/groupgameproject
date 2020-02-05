@@ -1,12 +1,11 @@
 function startGame(){
   // console.log("START");
   //Load the avatarGirl for the first time
-  
-  
   img.onload = function() {   
      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
   };
   img.src = "./images/girl_movements/Idle.png";   
+  
   //Load the emojiLives for the first time
   kimCryEmoji.onload= function() {
       ctx.drawImage(kimCryEmoji,emojiLives[0].x,emojiLives[0].y,emojiLives[0].width,emojiLives[0].height)
@@ -27,11 +26,13 @@ function startGame(){
   drawBoard()
 
   //Sound Components
-  var myMusic;
-  myMusic = new sound("/audio/background.mp3");
-  mySound = new sound("/audio/trimmed.mp3");
-  myCoin = new sound("/audio/Coin-sound.mp3");
-  myMusic.play();
+  myWalk = new sound("./audio/trimmed.mp3");
+  myJump = new sound("./audio/jumppp22.ogg");
+  myMoney= new sound("./audio/coin10.wav");
+  myDeath= new sound("./audio/death.wav");
+  myGameEnd= new sound("./audio/round_end.wav")
+  myBackground= new sound("./audio/main_theme_01.wav")
+  myBackground.play()
 
 
   //Reassign order of divs to get canvas to center
@@ -97,10 +98,13 @@ function collision(object){
   }
 
 function checkStatus() {
-      let status=true
+      
       for (let i=0;i<circleArray.length;i++){  
           if(collision(circleArray[i])){
               console.log("feelings got me")
+              myBackground.stop()
+              myDeath.play()
+              myGameEnd.play()
               window.cancelAnimationFrame(loop)
               // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
               i= circleArray.length
@@ -111,6 +115,7 @@ function checkStatus() {
       
       cashArray.forEach(cash => {
           if(collision(cash)){
+          myMoney.play()
           cashArray.splice(cashArray.indexOf(cash),1)
           score += 10
           document.querySelector("header").innerText=`Score: ${score}`
@@ -122,14 +127,14 @@ function checkStatus() {
 document.onkeydown = function(e) { //controls -- up down left and right ... 
   switch (e.keyCode) {
     case 38: if (avatarGirl.y > canvas.height-130){
-                  avatarGirl.y-=20;toggleRUP();mySound.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
+                  avatarGirl.y-=20;toggleRUP();myWalk.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
                   break;
               }else{
                   avatarGirl.y=canvas.height-150;//rightArm.y-=0; leftArm.y-=0;
                   break;
               }
     case 40: if (avatarGirl.y <= canvas.height-110){
-                  avatarGirl.y+=20;toggleRDOWN();mySound.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+                  avatarGirl.y+=20;toggleRDOWN();myWalk.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
                   break;
               }else{
                   avatarGirl.y=canvas.height-90;//rightArm.y+=0; leftArm.y+=0;
@@ -140,7 +145,7 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
                 if (avatarGirl.y<canvas.height-150){
                   avatarGirl.x-=2;toggleRRT();
                 }else{
-                avatarGirl.x-=20; toggleRAB();mySound.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                avatarGirl.x-=20; toggleRAB();myWalk.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 }break;
               }else {
               avatarGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
@@ -149,13 +154,13 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
                 if (avatarGirl.y<canvas.height-150){
                   avatarGirl.x+=2;toggleRRT();
                 }else{
-                  avatarGirl.x+=20;toggleRRT();mySound.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                  avatarGirl.x+=20;toggleRRT();myWalk.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
               } break;
               } else {
               avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
               break;
               }
-    case 32: jump()//console.log("space bar hit");
+    case 32: jump();myJump.play()//console.log("space bar hit");
               break;
 }}
 
@@ -179,7 +184,7 @@ function fall(){
   let k = setInterval(()=>{
     ghettoGravity+=.05
     avatarGirl.y+=10*ghettoGravity;
-    if(avatarGirl.y >= canvas.height-130){
+    if(avatarGirl.y >= canvas.height-150){
       clearInterval(k)
     }
   },1)
@@ -253,23 +258,6 @@ function drawGameLives(){
     ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
   }
 }
-
-//Sound constructor
-function sound(src) {
-  this.sound = document.createElement("audio");
-  this.sound.src = src;
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function(){
-    this.sound.play();
-  }
-  this.stop = function(){
-    this.sound.v
-  }
-}
-
 
 //Event Listeners
 window.addEventListener('mousemove', //Is it in current use?

@@ -31,9 +31,9 @@ header {
 .glow {
     color: #fff;
     text-align: center;
-    -webkit-animation: glow 1s ease-in-out infinite alternate;
-    -moz-animation: glow 1s ease-in-out infinite alternate;
-    animation: glow 1s ease-in-out infinite alternate;
+    -webkit-animation: glow 5s ease-in-out infinite alternate;
+    -moz-animation: glow 5s ease-in-out infinite alternate;
+    animation: glow 5s ease-in-out infinite alternate;
   }
   
   @keyframes glow {
@@ -47,9 +47,9 @@ header {
 .glow2 {
     color: #fff;
     text-align: center;
-    -webkit-animation: glow2 1s ease-in-out infinite alternate;
-    -moz-animation: glow2 1s ease-in-out infinite alternate;
-    animation: glow2 1s ease-in-out infinite alternate;
+    -webkit-animation: glow2 5s ease-in-out infinite alternate;
+    -moz-animation: glow2 5s ease-in-out infinite alternate;
+    animation: glow2 5s ease-in-out infinite alternate;
   }
   
   @keyframes glow2 {
