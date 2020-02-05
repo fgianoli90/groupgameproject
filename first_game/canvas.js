@@ -53,6 +53,87 @@ function drawBoard(){
     ctx.fillRect(0,0,canvas.width,canvas.height)
 }
 
+function Star() {
+    this.radius = (Math.random() * 10) + 5;
+    this.x = this.radius + (canvas.width - this.radius * 2) * Math.random();
+    this.y = -10; 
+    this.dx = (Math.random() - 0.5) * 20;
+    this.dy = 30;
+    this.gravity = .5;
+    this.friction = .54;
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, Math.abs(this.radius), 0, Math.PI * 2, false);
+
+        ctx.shadowColor = '#E3EAEF';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "#E3EAEF";
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+    }
+}
+function createMountainRange(mountainAmount, height,  color) {
+    for (var i = 0; i < mountainAmount; i++) {
+        var mountainWidth = canvas.width / mountainAmount;
+
+        // Draw triangle
+        ctx.beginPath();
+        ctx.moveTo(i * mountainWidth, canvas.height);
+        ctx.lineTo(i * mountainWidth + mountainWidth + 325, canvas.height);
+
+        // Triangle peak
+        ctx.lineTo(i * mountainWidth + mountainWidth / 2, canvas.height - height);
+        ctx.lineTo(i * mountainWidth - 325, canvas.height);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+function MiniStar() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 3;
+
+    this.draw = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+
+        ctx.shadowColor = 'yellow';
+        ctx.shadowBlur = (Math.random() * 10) + 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        ctx.closePath();	
+        ctx.restore();
+    }
+}
+var stars = [];
+		// var explosions = [];
+		var groundHeight = canvas.height * 0.15;
+		// var randomSpawnRate = Math.floor((Math.random() * 25) + 60)
+		var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
+		backgroundGradient.addColorStop(0,"#171e26");
+		backgroundGradient.addColorStop(1,"#ff4da6");
+
+		var miniStars = [];
+		for (var i = 0; i < 30; i++) {
+			miniStars.push(new MiniStar());
+		}
+
+
+
+
+
 let moneyBag = {  
     x:canvas.width / 2,
     y:canvas.height * 6/7,
@@ -139,7 +220,7 @@ window.addEventListener('mousemove', //Is it in current use?
 function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    console.log(mouse)
+    // console.log(mouse)
 })
 
 let gameWidth = canvas.width
@@ -297,8 +378,18 @@ setInterval(() => {
 
 function animate(){
 loop=requestAnimationFrame(animate);
+ctx.fillStyle = backgroundGradient;
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawBoard()
+for (var i = 0; i < miniStars.length; i++) {
+    miniStars[i].draw();
+}
+createMountainRange(1, canvas.height - 50, "#fff");
+createMountainRange(2, canvas.height - 100,  "#e60073");
+createMountainRange(3, canvas.height - 300 , "#ff4da6");
+
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 drawBag()
 drawRAC()
 drawLAC()
@@ -351,23 +442,27 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
           moneyBag.y+moneyBag.height < object.y
         )
     }
+
+
     let score=0
     function checkStatus() {
-
-    for (let i=0;i<circleArray.length;i++){  
-        if(collision(circleArray[i])){
-            console.log("feelings got me")
-            window.cancelAnimationFrame(loop)
-            // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
-            i= circleArray.length
+        let status=true
+        for (let i=0;i<circleArray.length;i++){  
+            if(collision(circleArray[i])){
+                console.log("feelings got me")
+                window.cancelAnimationFrame(loop)
+                // circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
+                i= circleArray.length
+                doGameOver(ctx)
+                console.log("doGameover")
+            }
         }
-    }
-    
-    cashArray.forEach(cash => {
-        if(collision(cash)){
-          cashArray.splice(cashArray.indexOf(cash),1)
-          score += 10
-        }
-    })
+        
+        cashArray.forEach(cash => {
+            if(collision(cash)){
+            cashArray.splice(cashArray.indexOf(cash),1)
+            score += 10
+            }
+        })
     
 }
