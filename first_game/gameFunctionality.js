@@ -99,6 +99,7 @@ function collision(object){
 
 let numOfLives=0  
 function checkStatus() {
+  console.log("checkStatus")
       
       for (let i=0;i<circleArray.length;i++){  
         if(collision(circleArray[i])){
@@ -126,14 +127,16 @@ function checkStatus() {
           }
       })
 
-      if (numOfLives>=3){
+      if (numOfLives>=1){
+        console.log("numlives")
         myBackground.stop()
         myGameEnd.play()
         window.cancelAnimationFrame(loop)
         doGameOver(ctx)
+        
       }
 }
-
+ 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
   switch (e.keyCode) {
     case 38: if (avatarGirl.y > canvas.height-130){

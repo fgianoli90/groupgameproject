@@ -31,6 +31,7 @@ var cashArray = [];
 var circleArray = [];
 var feelingsArray = [];
 var moneyArray = [];
+let gameOver=false;
 
 // Feelings Array
 let smiley = new Image();
@@ -254,6 +255,7 @@ setInterval(() => {
 
 //Start of animate function
 function animate(){
+    
 loop = window.requestAnimationFrame(animate);
 ctx.fillStyle = backgroundGradient;
 ctx.clearRect(0, 0, canvas.width, canvas.height);
