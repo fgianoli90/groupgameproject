@@ -3,12 +3,13 @@ myMusic.play();
 
 //Functions on start button click
 function startGame(){
-    // console.log("START");
-    //Load the avatarGirl for the first time
-    img.onload = function() {   
-       ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
-    };
-    img.src = "./images/girl_movements/Idle.png";   
+  // console.log("START");
+  //Load the aGirl for the first time
+  // img = aGirl.character
+  img.onload = function() {   
+      ctx.drawImage(img, 356,460,spriteWidth/cols, spriteHeight/rows,canvas.width/2, canvas.height*6/7, 60,90);
+   };
+  // img.src = "./images/girl_movements/Idle.png";    
      
     //Load the emojiLives for the first time
     girlLife1.onload= function() {
@@ -27,7 +28,7 @@ function startGame(){
     girlLife3.src="./images/girl_movements/Idle.png";
     gamelives.push(girlLife3)
       
-  ////drawBoard()
+//  drawBoard()
     //Sound Components
     myWalk = new sound("./audio/trimmed.mp3");
     myJump = new sound("./audio/jumppp22.ogg");
@@ -71,6 +72,8 @@ function startGame(){
   }, 2000)
   }
   
+
+
   function animate(){ //start animate 
       
   loop = window.requestAnimationFrame(animate);
@@ -78,6 +81,7 @@ function startGame(){
   ctx.fillStyle = backgroundGradient;
   drawBoard()
   //Draw stars
+  
   for (var i = 0; i < miniStars.length; i++) {
       miniStars[i].draw();
     }
@@ -89,16 +93,19 @@ function startGame(){
   ctx.fillStyle = "#FECE90";
   ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
   
+  
   drawGirl()
+  aGirl.updateFrame()
   drawFeelings()
   drawCash()
   drawGameLives()
   checkStatus()
   
+  
   //Player movement status checker
-  if(rab){drawRAB()}
-  if(rrt){drawRRT()}
-  if(rup){drawRUP()}
-  if(rdown){drawRDOWN()}
+  // if(rab){drawRAB()}
+  // if(rrt){drawRRT()}
+  // if(rup){drawRUP()}
+  // if(rdown){drawRDOWN()}
   
   }//end animate

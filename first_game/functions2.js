@@ -35,11 +35,12 @@ function createMountainRange(mountainAmount, height,  color) {
 }
 
 function collision(object){ 
+  // console.log("inside crashed")
   return !(
-        avatarGirl.x > object.x+object.radius ||
-        avatarGirl.y > object.y+object.radius ||
-        avatarGirl.x+avatarGirl.width < object.x ||
-        avatarGirl.y+avatarGirl.height < object.y
+        aGirl.x > object.x+object.radius ||
+        aGirl.y > object.y+object.radius ||
+        aGirl.x+aGirl.width < object.x ||
+        aGirl.y+aGirl.height < object.y
       )
   }
 
