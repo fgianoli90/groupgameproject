@@ -1,41 +1,45 @@
- 
+var goLeft=false
+var goRight=false
 document.onkeydown = function(e) { //controls -- up down left and right ... 
     switch (e.keyCode) {
       case 38: if (avatarGirl.y > canvas.height-130){
-                    avatarGirl.y-=20;toggleRUP();myWalk.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
+                    avatarGirl.y-=20;toggleRUP();myWalk.play();// console.log('up',  );
                     break;
                 }else{
-                    avatarGirl.y=canvas.height-150;//rightArm.y-=0; leftArm.y-=0;
+                    avatarGirl.y=canvas.height-150;
                     break;
                 }
-      case 40: if (avatarGirl.y <= canvas.height-110){
-                    avatarGirl.y+=20;toggleRDOWN();myWalk.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+      case 40:  if(avatarGirl.y < canvas.height-150){
+                    inAir=true
+                }else{
+                if (avatarGirl.y <= canvas.height-110){
+                    avatarGirl.y+=20;toggleRDOWN();myWalk.play();//console.log('down',); 
                     break;
                 }else{
-                    avatarGirl.y=canvas.height-90;//rightArm.y+=0; leftArm.y+=0;
+                    avatarGirl.y=canvas.height-90;
                     break;
-                }
+                }}
   
       case 37: if(avatarGirl.x >= 20){
                   if (avatarGirl.y<canvas.height-150){
-                    avatarGirl.x-=3;inAir=true;toggleRRT();
+                    avatarGirl.x-=3;goLeft=true;toggleRRT();
                   }else{
-                  avatarGirl.x-=20; toggleRAB();myWalk.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                  avatarGirl.x-=20; toggleRAB();myWalk.play();//console.log('left',); 
                   }break;
                 }else {
-                avatarGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
+                avatarGirl.x == 0;break;
                 }
       case 39: if (avatarGirl.x <= canvas.width-80){
                   if (avatarGirl.y<canvas.height-150){
-                    avatarGirl.x+=3;inAir=true; toggleRRT();
+                    avatarGirl.x+=3;goLeft=true; toggleRRT();
                   }else{
-                    avatarGirl.x+=20;toggleRRT();myWalk.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                    avatarGirl.x+=20;toggleRRT();myWalk.play();//console.log('right'); 
                 } break;
                 } else {
-                avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+                avatarGirl.x === canvas.width-60; 
                 break;
                 }
-      case 32: if (!(avatarGirl.y < canvas.height-150)){jump();myJump.play()//console.log("space bar hit");
+      case 32: if (!(avatarGirl.y < canvas.height-150)){jump();myJump.play()//console.log("jump");
                 break;
                 }
     }
@@ -49,6 +53,14 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
       ghettoGravity-=.05;
       ghettoGravity = Math.max(0.2, ghettoGravity)
       avatarGirl.y-=20*ghettoGravity;
+      if (goRight){
+          avatarGirl.x+=3
+          goRight=false
+      }
+      if (goLeft){
+          avatarGirl.x-=3
+          goLeft=false
+      }
       if(avatarGirl.y <peak || inAir){
         clearInterval(j)
         fall()
@@ -60,6 +72,14 @@ document.onkeydown = function(e) { //controls -- up down left and right ...
     let k = setInterval(()=>{
       ghettoGravity+=.05
       avatarGirl.y+=25*ghettoGravity;
+    //   if (goRight){
+    //     avatarGirl.x+=2
+    //     goRight=false
+    // }
+    // if (goLeft){
+    //     avatarGirl.x-=2
+    //     goLeft=false
+    // }
       if(avatarGirl.y >= canvas.height-150){
         clearInterval(k)
         inAir=false;
