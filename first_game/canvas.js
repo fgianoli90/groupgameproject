@@ -15,7 +15,7 @@ canvas.height = window.innerHeight/1.8;
 var ctx = canvas.getContext('2d');
 
 //Declare images to load to canvas
-var img = new Image(); 
+var img = new Image();
 var img1 = new Image();
 var img2 = new Image();
 var kimCryEmoji= new Image();
@@ -55,21 +55,21 @@ moneyArray.push(moneyWings);
 
 
 //declare avatarGirl images
-let img3=new Image()
-img3.src="./images/girl_movements/Run_Left.png"
-let rab = false; 
+// let img3=new Image()
+// img3.src="./images/girl_movements/Run_Left.png"
+// let rab = false; 
 
-let img4=new Image()
-img4.src="./images/girl_movements/Run_Right.png"
-let rrt = false; 
+// let img4=new Image()
+// img4.src="./images/girl_movements/Run_Right.png"
+// let rrt = false; 
 
-let img5=new Image()
-img5.src="./images/girl_movements/move_up.png"
-let rup = false; 
+// let img5=new Image()
+// img5.src="./images/girl_movements/move_up.png"
+// let rup = false; 
 
-let img6=new Image()
-img6.src="./images/girl_movements/move_down.png"
-let rdown = false; 
+// let img6=new Image()
+// img6.src="./images/girl_movements/move_down.png"
+// let rdown = false; 
 
 // Declare Classes
 
@@ -184,6 +184,108 @@ class sound {
       this.sound.pause();
     }
   }
+  var spriteWidth = 1664; 
+  var spriteHeight = 1816; 
+  
+  var rows = 4; 
+  var cols = 4; 
+  
+  var canvasWidth = canvas.width
+  var canvashHeight = canvas.height
+//Player Constructor 
+class Girl {
+    constructor() {
+        this.trackIdle = 0;
+        this.trackRight = 1; 
+        this.trackLeft = 2;
+        this.trackJump = 3; 
+        
+        this.width = spriteWidth/cols; 
+        this.height = spriteHeight/rows; 
+        
+        this.curFrame = 0; 
+        this.frameCount = 4; 
+        
+        this.x=canvas.width/2;
+        this.y=canvas.height-90; 
+        
+        this.srcX = 356; 
+        this.srcY = 460; 
+        
+        this.idle = true;
+        this.left = false; 
+        this.right = false;
+        this.jump = false;
+        
+        this.speed = 3; 
+        this.ctx = ctx
+        this.character = new Image(); 
+        this.character.src = "./images/girl_movements/final_girl_sprites.png";
+    }
+    
+    updateFrame(){
+        this.curFrame = ++this.curFrame % this.frameCount; 				
+        this.srcX = this.curFrame * this.width; 
+        // this.ctx.clearRect(this.x,this.y,this.width,this.height);	
+        if(this.idle){
+            this.srcY = this.trackIdle * this.height; 
+            
+        }
+        
+        if(this.left){    //removed properties  && this.x>0
+            this.srcY = this.trackLeft * this.height; 
+            this.x-=this.speed; 
+        }
+        if(this.right ){   //removed properties && this.x<this.canvasWidth-this.width
+            this.srcY = this.trackRight * this.height; 
+            this.x+=this.speed; 
+        }
+        if(this.jump){   //removed properties  && this.y<this.canvasHeight-this.height
+            this.srcY = this.trackJump * this.height; 
+            // this.x+=this.speed; 
+        }
+        this.draw()
+    }
+    
+    draw() {
+        // this.updateFrame();
+        ctx.drawImage(this.character,this.srcX,this.srcY,this.width,this.height,this.x,this.y,60,90);
+    }
+
+    moveLeft(){
+        this.left = true; 
+        this.right = false; 
+        this.idle = false;
+        this.jump = false;
+        
+    }
+    
+    moveRight(){
+        this.left = false;
+        this.right = true; 
+        this.idle = false;
+        this.jump = false;
+    }
+    
+    moveIdle(){
+        this.left = false; 
+        this.right = false; 
+        this.idle = true;
+        this.jump = false;
+    }
+    
+    moveJump(){
+        this.left = false;
+        this.right = false; 
+        this.idle = false;
+        this.jump = true;
+    }     
+    
+    
+    
+}
+
+
 var myMusic;
 myMusic = new sound("./audio/background.mp3");
 myMusic.play();
@@ -230,6 +332,9 @@ setInterval(() => {
 }, 2000)
 }
 
+
+var aGirl= new Girl()
+
 //Start of animate function
 function animate(){
 loop = window.requestAnimationFrame(animate);
@@ -244,6 +349,7 @@ for (var i = 0; i < miniStars.length; i++) {
 
 
 
+
 createMountainRange(1, canvas.height - 50, "#fff");
 createMountainRange(2, canvas.height - 100,  "#669999");
 createMountainRange(3, canvas.height - 300 , "#00CCFF");
@@ -251,25 +357,27 @@ createMountainRange(3, canvas.height - 300 , "#00CCFF");
 ctx.fillStyle = "#FECE90";
 ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 
-drawBag()
+// drawBag()
+aGirl.updateFrame()
+
 drawFeelings()
 drawCash()
 checkStatus()
 
 //Player movement status checker
-if(rab){
-    drawRAB()
-}
+// if(rab){
+//     drawRAB()
+// }
 
-if(rrt){
-    drawRRT()
-}
+// if(rrt){
+//     drawRRT()
+// }
 
-if(rup){
-    drawRUP()
-}
+// if(rup){
+//     drawRUP()
+// }
 
-if(rdown){
-    drawRDOWN()
-}
+// if(rdown){
+//     drawRDOWN()
+// }
 }

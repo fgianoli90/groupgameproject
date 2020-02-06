@@ -1,10 +1,11 @@
 function startGame(){
   // console.log("START");
-  //Load the avatarGirl for the first time
+  //Load the aGirl for the first time
+  // img = aGirl.character
   img.onload = function() {   
-     ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
-  };
-  img.src = "./images/girl_movements/Idle.png";   
+      ctx.drawImage(img, 356,460,spriteWidth/cols, spriteHeight/rows,canvas.width/2, canvas.height*6/7, 60,90);
+   };
+  img.src = "./images/girl_movements/final_girl_sprites.png";   
   
   //Load the emojiLives for the first time
   kimCryEmoji.onload= function() {
@@ -90,10 +91,10 @@ function createMountainRange(mountainAmount, height,  color) {
 function collision(object){ 
   // console.log("inside crashed")
   return !(
-        avatarGirl.x > object.x+object.radius ||
-        avatarGirl.y > object.y+object.radius ||
-        avatarGirl.x+avatarGirl.width < object.x ||
-        avatarGirl.y+avatarGirl.height < object.y
+        aGirl.x > object.x+object.radius ||
+        aGirl.y > object.y+object.radius ||
+        aGirl.x+aGirl.width < object.x ||
+        aGirl.y+aGirl.height < object.y
       )
   }
 
@@ -126,42 +127,44 @@ function checkStatus() {
 
 document.onkeydown = function(e) { //controls -- up down left and right ... 
   switch (e.keyCode) {
-    case 38: if (avatarGirl.y > canvas.height-130){
-                  avatarGirl.y-=20;toggleRUP();myWalk.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
+    case 38: if (aGirl.y > canvas.height-130){
+                  aGirl.y-=20;aGirl.moveJump();myWalk.play();//rightArm.y-=20; leftArm.y-=20; console.log('up',  );
                   break;
               }else{
-                  avatarGirl.y=canvas.height-150;//rightArm.y-=0; leftArm.y-=0;
+                  aGirl.y=canvas.height-150;aGirl.moveIdle();//rightArm.y-=0; leftArm.y-=0;
                   break;
               }
-    case 40: if (avatarGirl.y <= canvas.height-110){
-                  avatarGirl.y+=20;toggleRDOWN();myWalk.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
+    case 40: if (aGirl.y <= canvas.height-110){
+                  aGirl.y+=20;aGirl.moveIdle();myWalk.play();//rightArm.y+=20; leftArm.y+=20; //console.log('down',); 
                   break;
               }else{
-                  avatarGirl.y=canvas.height-90;//rightArm.y+=0; leftArm.y+=0;
+                  aGirl.y=canvas.height-90;aGirl.moveJump();//rightArm.y+=0; leftArm.y+=0;
                   break;
               }
 
-    case 37: if(avatarGirl.x >= 20){
-                if (avatarGirl.y<canvas.height-150){
-                  avatarGirl.x-=2;toggleRRT();
+    case 37: if(aGirl.x >= 20){
+                if (aGirl.y<canvas.height-150){
+                  aGirl.x-=2;aGirl.moveIdle();
                 }else{
-                avatarGirl.x-=20; toggleRAB();myWalk.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
+                aGirl.x-=20; aGirl.moveLeft();myWalk.play();//rightArm.x-=20;leftArm.x-=20;//console.log('left',); 
                 }break;
               }else {
-              avatarGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
+              aGirl.x == 0;//rightArm.x===80;rightArm.x===0; break;
               }
-    case 39: if (avatarGirl.x <= canvas.width-80){
-                if (avatarGirl.y<canvas.height-150){
-                  avatarGirl.x+=2;toggleRRT();
+    case 39: if (aGirl.x <= canvas.width-80){
+                if (aGirl.y<canvas.height-150){
+                  aGirl.x+=2;aGirl.moveIdle();
                 }else{
-                  avatarGirl.x+=20;toggleRRT();myWalk.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
+                  aGirl.x+=20;aGirl.moveRight();myWalk.play();//rightArm.x+=20;leftArm.x+=20; //console.log('right'); 
               } break;
               } else {
-              avatarGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
+              aGirl.x === canvas.width-60;//rightArm.x===canvas.width-30;leftArm.x===canvas.width-110; 
               break;
               }
-    case 32: jump();myJump.play()//console.log("space bar hit");
+    case 32: jump();aGirl.moveJump();aGirl.myJump.play()//console.log("space bar hit");
               break;
+
+    default: aGirl.moveIdle();
 }}
 
 
@@ -171,8 +174,8 @@ function jump(){
   let j = setInterval(()=>{
     ghettoGravity-=.05;
     ghettoGravity = Math.max(0.2, ghettoGravity)
-    avatarGirl.y-=10*ghettoGravity;
-    if(avatarGirl.y <peak){
+    aGirl.y-=10*ghettoGravity;
+    if(aGirl.y <peak){
       clearInterval(j)
       fall()
     }
@@ -183,8 +186,8 @@ function fall(){
   let ghettoGravity = .2;
   let k = setInterval(()=>{
     ghettoGravity+=.05
-    avatarGirl.y+=10*ghettoGravity;
-    if(avatarGirl.y >= canvas.height-150){
+    aGirl.y+=10*ghettoGravity;
+    if(aGirl.y >= canvas.height-150){
       clearInterval(k)
     }
   },1)
@@ -210,49 +213,49 @@ var emojiLives=[
   height: 40
 }]
 
-let avatarGirl = {  
-  x:canvas.width / 2,
-  y:canvas.height-90,
-  width: 60,
-  height: 90
-}
+// let aGirl = {  
+//   x:canvas.width / 2,
+//   y:canvas.height-90,
+//   width: 60,
+//   height: 90
+// }
 
 //Movements and draw functions
-function toggleRAB(){
-  rab = true;
-  setTimeout(()=>rab=false,200)
-}
-function toggleRRT(){
-  rrt = true;
-  setTimeout(()=>rrt=false,200)
-}
-function toggleRUP(){
-  rup = true;
-  setTimeout(()=>rup=false,200)
-}
-function toggleRDOWN(){
-  rdown = true;
-  setTimeout(()=>rdown=false,200)
-}
-function drawRAB(){
-  rab = true;
-  ctx.drawImage(img3,avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height)
-}
-function drawRRT(){
-  rrt = true;
-  ctx.drawImage(img4,avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height)
-}
-function drawRUP(){
-  rup = true;
-  ctx.drawImage(img5,avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height)
-}
-function drawRDOWN(){
-  rdown = true;
-  ctx.drawImage(img6,avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height)
-}
-function drawBag() {
-  ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height); //draws the avatarGirl depending on the coords in the obj above 
-}
+// function toggleRAB(){
+//   rab = true;
+//   setTimeout(()=>rab=false,200)
+// }
+// function toggleRRT(){
+//   rrt = true;
+//   setTimeout(()=>rrt=false,200)
+// }
+// function toggleRUP(){
+//   rup = true;
+//   setTimeout(()=>rup=false,200)
+// }
+// function toggleRDOWN(){
+//   rdown = true;
+//   setTimeout(()=>rdown=false,200)
+// }
+// function drawRAB(){
+//   rab = true;
+//   ctx.drawImage(img3,aGirl.x, aGirl.y, aGirl.width, aGirl.height)
+// }
+// function drawRRT(){
+//   rrt = true;
+//   ctx.drawImage(img4,aGirl.x, aGirl.y, aGirl.width, aGirl.height)
+// }
+// function drawRUP(){
+//   rup = true;
+//   ctx.drawImage(img5,aGirl.x, aGirl.y, aGirl.width, aGirl.height)
+// }
+// function drawRDOWN(){
+//   rdown = true;
+//   ctx.drawImage(img6,aGirl.x, aGirl.y, aGirl.width, aGirl.height)
+
+// function drawBag() {
+//   ctx.drawImage(img, aGirl.x, aGirl.y, aGirl.width, aGirl.height); //draws the aGirl depending on the coords in the obj above 
+// }
 function drawGameLives(){
   for (i=0;i<emojiLives.length;i++){
     ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
@@ -270,6 +273,6 @@ function(event){
 window.addEventListener('resize', function(){
   canvas.width = window.outerWidth/1.5; // Sets our canvas to browsers current dimensions
   canvas.height = window.outerHeight/1.8;
-  init();
-  init2();
+  
   })
+  
