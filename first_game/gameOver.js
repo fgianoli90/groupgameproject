@@ -27,7 +27,7 @@ let playover = true
     btn.innerHTML = "Restart";
     document.querySelector(".game-intro").appendChild(btn)
     document.querySelector(".game-intro > button").onclick = init;
-
+    btn.className="glow2"
     console.log(document.querySelector(".game-intro"))
     }
     playover=false;
