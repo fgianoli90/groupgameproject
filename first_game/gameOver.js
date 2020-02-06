@@ -1,42 +1,60 @@
-//var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
-//canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
-//canvas.height = window.innerHeight/1.5;
+ function init(){
+    console.log("restart") 
+    window.location.reload()
+ }
 
-//var ctx = canvas.getContext('2d');
 
- var doGameOver = function(ctx){
-    var style = {
-        font: "32px Monospace",
-        fill: "#00ff00",
-        align: "center"
+let doGameOver = function(ctx) {
+    //window.cancelAnimationFrame(loop)
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+   //  ctx.fillText('Game Over',200,204);
+    ctx.font = '60px serif';
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop("0"," magenta");
+    gradient.addColorStop("0.5", "blue");
+    gradient.addColorStop("1.0", "red");
+    // Fill with gradient
+    ctx.fillStyle = gradient;
+    ctx.fillText("Game Over!", canvas.width/2-200, canvas.height/2);
+    img.onload = function() {   
+      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
+   };
+   img.src = "./images/girl_movements/Idle.png";  
+    //  ctx.fillStyle= "#6a8ccc"
+    console.log("remove1")
+
+    if (!gameOver){
+    document.querySelector(".game-intro > p").remove();   
+    console.log("remove2")
+    document.querySelector(".game-intro > img").remove();
+    let btn = document.createElement("BUTTON");
+    btn.innerHTML = "Restart";
+    document.querySelector(".game-intro").appendChild(btn)
+    document.querySelector(".game-intro > button").onclick = init;
+
+    console.log(document.querySelector(".game-intro"))
     }
-    ctx.fillStyle="white"
-    ctx.font = '48px serif';
-    ctx.fillText('Hello world', 10, 50);
-    ctx.font = '48px serif';
-    ctx.strokeText('Hello world', 10, 100);
-    // var text = game.text(
-    //     game.width / 2, game.height / 2, "Game Over\n\n " + "\n\nTap to restart", style
-    // );
-    
-    // text.anchor.set(0.5);
- };
+    playover=false;
+    gameOver=true;
 
-// doGameOver.prototype = {
-//     create: function() {
-//         var style = {
-//             font: "32px Monospace",
-//             fill: "#00ff00",
-//             align: "center"
-//         }
-        
-//         var text = game.add.text(
-//             game.width / 2, game.height / 2, "Game Over\n\n " + "\n\nTap to restart", style
-//         );
-        
-//         text.anchor.set(0.5);
-//     }
+    // document.querySelector(".arrows-img").remove();
+    // document.querySelector(".game-intro").appendChild(btn);
+};
 
-// }
+//  let restart= function(){ 
+//  let btn = document.createElement("BUTTON");
+//  btn.innerHTML = "Restart";
+//  var divs=document.getElementsByTagName("div");
+//  divs[1]=btn
+//  document.body.appendChild(btn);s
+ 
+ 
+ 
+     
+ 
+ 
 
+
+
+ 
