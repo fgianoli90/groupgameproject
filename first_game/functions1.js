@@ -5,10 +5,10 @@ myMusic.play();
 function startGame(){
     // console.log("START");
     //Load the avatarGirl for the first time
-    img.onload = function() {   
-       ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
-    };
-    img.src = "./images/girl_movements/Idle.png";   
+    // img.onload = function() {   
+    //    ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
+    // };
+    // img.src = "./images/girl_movements/Idle.png";   
      
     //Load the emojiLives for the first time
     girlLife1.onload= function() {
@@ -29,7 +29,7 @@ function startGame(){
       
   ////drawBoard()
     //Sound Components
-    myWalk = new sound("./audio/trimmed.mp3");
+    myWalk = new sound("./audio/footsteps.mp3");
     myJump = new sound("./audio/jumppp22.ogg");
     myMoney= new sound("./audio/coin10.wav");
     myDeath= new sound("./audio/death.wav");
@@ -96,9 +96,9 @@ function startGame(){
   checkStatus()
   
   //Player movement status checker
-  if(rab){drawRAB()}
-  if(rrt){drawRRT()}
-  if(rup){drawRUP()}
-  if(rdown){drawRDOWN()}
+//   if(rab){drawRAB()}
+//   if(rrt){drawRRT()}
+//   if(rup){drawRUP()}
+//   if(rdown){drawRDOWN()}
   
   }//end animate

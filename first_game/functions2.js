@@ -16,6 +16,21 @@ function drawCash(){
   })
 }
 
+function drawGameLives(){
+  for (i=0;i<emojiLives.length;i++){
+    ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
+  }
+}
+
+function updatePosition(positionX,positionY){
+  positioned.x=positionX
+  positioned.y=positionY
+}
+
+function drawGirl() {
+  newGirl=new Girl(positioned.x,positioned.y,avatarGirl.x,avatarGirl.y,avatarGirl.width,avatarGirl.height)
+  newGirl.updateFrame(); //draws the avatarGirl depending on the coords in the obj above 
+}
 function createMountainRange(mountainAmount, height,  color) {
   for (let i = 0; i < mountainAmount; i++) {
       let mountainWidth = canvas.width / mountainAmount;
@@ -36,10 +51,10 @@ function createMountainRange(mountainAmount, height,  color) {
 
 function collision(object){ 
   return !(
-        avatarGirl.x > object.x+object.radius ||
-        avatarGirl.y > object.y+object.radius ||
-        avatarGirl.x+avatarGirl.width < object.x ||
-        avatarGirl.y+avatarGirl.height < object.y
+        newGirl.x > object.x+object.radius ||
+        newGirl.y > object.y+object.radius ||
+        newGirl.x+newGirl.width < object.x ||
+        newGirl.y+newGirl.height < object.y
       )
   }
 
@@ -48,18 +63,12 @@ function checkStatus() {
       
       for (let i=0;i<circleArray.length;i++){  
         if(collision(circleArray[i])){
-              // console.log("feelings got me")
-              myDeath.play()
-              // myBackground.stop()
-              // myGameEnd.play()
-              // window.cancelAnimationFrame(loop)
-              circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
-              // i= circleArray.length
-              // doGameOver(ctx)
-              emojiLives.pop()
-              numOfLives++
-              }
-            }
+             myDeath.play()
+             circleArray.splice(i,1)
+             emojiLives.pop()
+             numOfLives++
+        }
+      }
           
       
       

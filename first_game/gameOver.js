@@ -12,11 +12,7 @@ let doGameOver = function(ctx) {
     ctx.fillStyle= "#6a8ccc"
     ctx.font = '120px verdana';
     ctx.fillText("Game Over!", canvas.width/2-350, canvas.height/2);
-    img.onload = function() {   
-      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
-   };
-   
-   img.src = "./images/girl_movements/Idle.png";  
+    newGirl.draw()
     document.querySelector("header").style.fontSize="120px"
 
     if (!gameOver){
