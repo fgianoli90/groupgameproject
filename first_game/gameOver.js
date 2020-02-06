@@ -2,21 +2,26 @@
  function init(){
     console.log("restart") 
     window.location.reload()
-    // startGame(); //calls startGame  
-    // animate()
  }
-//var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 
-//canvas.width = window.innerWidth; // Sets our canvas to browsers current dimensions
-//canvas.height = window.innerHeight/1.5;
 
-//var ctx = canvas.getContext('2d');
-let playover = true
- let doGameOver = function(ctx) {
-    window.cancelAnimationFrame(loop)
+let doGameOver = function(ctx) {
+    //window.cancelAnimationFrame(loop)
     ctx.clearRect(0,0,canvas.width, canvas.height);
-    ctx.fillText('Game Over',200,204);
-    ctx.font = '48px serif';
+   //  ctx.fillText('Game Over',200,204);
+    ctx.font = '60px serif';
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop("0"," magenta");
+    gradient.addColorStop("0.5", "blue");
+    gradient.addColorStop("1.0", "red");
+    // Fill with gradient
+    ctx.fillStyle = gradient;
+    ctx.fillText("Game Over!", canvas.width/2-200, canvas.height/2);
+    img.onload = function() {   
+      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
+   };
+   img.src = "./images/girl_movements/Idle.png";  
+    //  ctx.fillStyle= "#6a8ccc"
     console.log("remove1")
 
     if (!gameOver){
