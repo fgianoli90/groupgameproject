@@ -1,9 +1,6 @@
 //start button clicked
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
-    //Reassign order of divs to get canvas to center
-    var divs = document.getElementsByTagName("div");
-    divs[0].parentNode.appendChild(divs[0]);
     myMusic.stop();
     startGame(); //calls startGame  
     createFeelings()
@@ -33,7 +30,7 @@ canvas.height = window.innerHeight/1.8;
 var ctx = canvas.getContext('2d');
 
 //Declare images to load to canvas
-var newGirl 
+var img = new Image(); 
 var girlLife1= new Image();
 var girlLife2= new Image();
 var girlLife3= new Image();
@@ -47,12 +44,23 @@ let inAir=false;
 let playover = true
 let gameOver=false;
 
+//Sprite settings
+var spriteWidth = 1664; 
+var spriteHeight = 1816;
+var cols = 4;
+var rows = 4; 
+var girlX = canvas.width/2;
+var girlY = this.y=canvas.height-90;
+var aGirl= new Girl()
+
+
 //Declare arrays to be used
 var gamelives= [];
 var cashArray = [];
 var circleArray = [];
 var feelingsArray = [];
 var moneyArray = [];
+var miniStars = [];
 
 //Declare variable for players js
 var spriteWidth = 1664; 
@@ -64,31 +72,32 @@ var canvashHeight = canvas.height
 var sectionWidth = spriteWidth/cols; 
 var sectionHeight = spriteHeight/rows; 
 
-var idle = true;
-var left = false; 
-var right = false;
-var jump = false;
+// var idle = true;
+// var left = false; 
+// var right = false;
+// var jump = false;
 
 
 
 var groundHeight = canvas.height * 0.15;
 var ballSpawnHeight = 10;
 var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
-
+var miniStars = [];
+	for (let i = 0; i < 30; i++) {
+		miniStars.push(new MiniStar());
+	}
 backgroundGradient.addColorStop(0,"#171e26");
 backgroundGradient.addColorStop(1,"#00CCFF");
 
 //Image objects with initial properties declared
-let positioned = {
-    x:356,
-    y:460,
-}
-let avatarGirl = {  
-    x:canvas.width / 2,
-    y:canvas.height-90,
-    width: 60,
-    height: 90
-}
+
+
+// let aGirl = {  
+//     x:canvas.width / 2,
+//     y:canvas.height-90,
+//     width: 60,
+//     height: 90
+// }
 var emojiLives=[
     {
         x:canvas.width-140,
@@ -114,10 +123,7 @@ var mouse = {
         y: undefined
     }
     
-var miniStars = [];
-    for (let i = 0; i < 30; i++) {
-        miniStars.push(new MiniStar());
-    }
+
 // Feelings Array
 let smiley = new Image();
 smiley.src = './images/cryFace.png';

@@ -1,6 +1,5 @@
-// Girl Class
-class Girl {
-constructor(srcX,srcY,x,y,width,height) {
+class Girl{
+constructor() {
     this.trackIdle = 0;
     this.trackRight = 1; 
     this.trackLeft = 2;
@@ -12,20 +11,20 @@ constructor(srcX,srcY,x,y,width,height) {
     this.curFrame = 0; 
     this.frameCount = 4; 
     
-    this.width=width
-    this.height=height
+    this.width=60
+    this.height=90
     this.x=x;
     this.y=y; 
     
-    this.srcX = srcX; 
-    this.srcY = srcY;
-    // this.srcX = 356; 
-    // this.srcY = 460; 
+    // this.srcX = srcX; 
+    // this.srcY = srcY;
+    this.srcX = 356; 
+    this.srcY = 460; 
     
-    // this.idle = true;
-    // this.left = false; 
-    // this.right = false;
-    // this.jump = false;
+    this.idle = true;
+    this.left = false; 
+    this.right = false;
+    this.jump = false;
     
     this.speed = 12; 
     this.ctx = ctx
@@ -53,12 +52,43 @@ updateFrame(){
 					this.srcY = this.trackJump * this.height; 
 					this.x+=this.speed; 
     }
-    updatePosition(this.srcX,this.srcY)
-    this.draw()
 }
 			
 draw(){
+    this.updateFrame()
 	ctx.drawImage(this.character,this.srcX,this.srcY,this.sectionWidth,this.sectionHeight,this.x,this.y,this.width,this.height);
 }
+
+moveLeft(){
+    left = true; 
+    right = false; 
+    idle = false;
+    jump = false;
+    // aGirl.updateFrame()
+}
+			
+moveRight(){
+	left = false;
+    right = true; 
+    idle = false;
+    jump = false;
+    // aGirl.updateFrame()
+}
+
+moveIdle(){
+	left = false; 
+    right = false; 
+    idle = true;
+    jump = false;
+    // aGirl.updateFrame()
+}
+			
+moveJump(){
+    left = false;
+    right = false; 
+    idle = false;
+    jump = true;
+    // aGirl.updateFrame()
+} 
 }
   
