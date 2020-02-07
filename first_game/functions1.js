@@ -94,9 +94,27 @@ function animate(){
         }
       
       //Draw mountains
-      createMountainRange(1, canvas.height - 50, "#fff");
-      createMountainRange(2, canvas.height - 100,  "#669999");
-      createMountainRange(3, canvas.height - 300 , "#00CCFF");
+      var sandImage = new Image();
+      sandImage.src = './images/sand_newpixel.png';
+      var pat1 = ctx.createPattern(sandImage, "repeat");
+
+      var snowImage = new Image();
+      snowImage.src = './images/snow.jpeg';
+      var pat2 = ctx.createPattern(snowImage, "repeat");
+
+      var grassImage = new Image();
+      grassImage.src = './images/grassfinal.png';
+      var pat3 = ctx.createPattern(grassImage, "repeat");
+
+      var dirtImage = new Image();
+      dirtImage.src = './images/dirt.png';
+      var pat4 = ctx.createPattern(dirtImage, "repeat");
+
+
+
+      createMountainRange(1, canvas.height - 50, pat2);
+      createMountainRange(2, canvas.height - 100,  pat4);
+      createMountainRange(3, canvas.height - 300 , pat3);
       
       //Draw ground    
       // ctx.fillStyle = "#FECE90";
