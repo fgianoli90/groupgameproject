@@ -6,23 +6,23 @@ function startGame(){
     // console.log("START");
     //Load the avatarGirl for the first time
     img.onload = function() {   
-       ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
+       ctx.drawImage(img, aGirl.x, aGirl.y, aGirl.width, aGirl.height);
     };
     img.src = "./images/girl_movements/Idle.png";   
      
     //Load the emojiLives for the first time
     girlLife1.onload= function() {
-        ctx.drawImage(girlLife1,emojiLives[0].x,emojiLives[0].y,emojiLives[0].width,emojiLives[0].height)
+        ctx.drawImage(girlLife1,gameLives[0].x,gameLives[0].y,gameLives[0].width,gameLives[0].height)
     }
     girlLife1.src="./images/girl_movements/Idle.png";
     gamelives.push(girlLife1)
     girlLife2.onload= function() {
-        ctx.drawImage(girlLife2,emojiLives[1].x,emojiLives[1].y,emojiLives[1].width,emojiLives[1].height)
+        ctx.drawImage(girlLife2,gameLives[1].x,gameLives[1].y,gameLives[1].width,gameLives[1].height)
     }
     girlLife2.src="./images/girl_movements/Idle.png";
     gamelives.push(girlLife2)
     girlLife3.onload= function() {
-        ctx.drawImage(girlLife3,emojiLives[2].x,emojiLives[2].y,emojiLives[2].width,emojiLives[2].height)
+        ctx.drawImage(girlLife3,gameLives[2].x,gameLives[2].y,gameLives[2].width,gameLives[2].height)
     }
     girlLife3.src="./images/girl_movements/Idle.png";
     gamelives.push(girlLife3)
@@ -76,29 +76,45 @@ function startGame(){
   loop = window.requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = backgroundGradient;
-  drawBoard()
+  // drawBoard()
   //Draw stars
   for (var i = 0; i < miniStars.length; i++) {
       miniStars[i].draw();
     }
 //Draw mountains
-  createMountainRange(1, canvas.height - 50, "#fff");
-  createMountainRange(2, canvas.height - 100,  "#669999");
-  createMountainRange(3, canvas.height - 300 , "#00CCFF");
+var sandImage = new Image();
+sandImage.src = './images/sand_newpixel.png';
+var pat1 = ctx.createPattern(sandImage, "repeat");
+
+var snowImage = new Image();
+snowImage.src = './images/snow.jpeg';
+var pat2 = ctx.createPattern(snowImage, "repeat");
+
+var grassImage = new Image();
+grassImage.src = './images/grassfinal.png';
+var pat3 = ctx.createPattern(grassImage, "repeat");
+
+var dirtImage = new Image();
+dirtImage.src = './images/dirt.png';
+var pat4 = ctx.createPattern(dirtImage, "repeat");
+  createMountainRange(1, canvas.height - 50, pat3);
+  createMountainRange(2, canvas.height - 100,  pat4);
+  createMountainRange(3, canvas.height - 300 , pat2);
 //Draw ground    
-  ctx.fillStyle = "#FECE90";
+  ctx.fillStyle = pat1;
   ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
   
-  drawGirl()
+  // drawGirl()
+  aGirl.draw()
   drawFeelings()
   drawCash()
   drawGameLives()
   checkStatus()
   
   //Player movement status checker
-  if(rab){drawRAB()}
-  if(rrt){drawRRT()}
-  if(rup){drawRUP()}
-  if(rdown){drawRDOWN()}
+  // if(rab){drawRAB()}
+  // if(rrt){drawRRT()}
+  // if(rup){drawRUP()}
+  // if(rdown){drawRDOWN()}
   
   }//end animate
