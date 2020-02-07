@@ -40,12 +40,8 @@ function startGame(){
       myMusic.stop()
       myBackground.play()
 
-      myBackground= new Audio('./audio/dance.mp3'); 
-      myBackground.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-    }, false);
-      myBackground.play();
+ 
+      
         
       //Use DOM to change styles for header and paragraph
       document.querySelector("header").innerText=`Score: ${score}`

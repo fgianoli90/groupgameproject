@@ -77,7 +77,7 @@ function checkStatus() {
   //Statement to check counter for number of game lives taken and if 3 or more then stops game 
   //and calls method for game over
     if (numOfLives>=3){
-        myBackground.stop()
+        myBackground.loop = false;
         myGameEnd.play()
         window.cancelAnimationFrame(loop)
         doGameOver(ctx) //See gameOver.js

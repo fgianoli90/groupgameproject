@@ -91,7 +91,12 @@ myJump = new sound("./audio/jumppp22.ogg");
 myMoney= new sound("./audio/coin10.wav");
 myDeath= new sound("./audio/death.wav");
 myGameEnd= new sound("./audio/round_end.wav")
-myBackground= new sound("./audio/dance.mp3")
+// myBackground= new sound("./audio/dance.mp3")
+myBackground= new Audio('./audio/dance.mp3'); 
+myBackground.addEventListener('ended', function() {
+  this.currentTime = 0;
+  this.play();
+}, false);
 
 //Draws background in the canvas space
 var groundHeight = canvas.height * 0.15;
