@@ -1,4 +1,9 @@
-// Declare Classes
+// Declare Classes: 
+// 1) MiniStar- Creates stars in the sky of the canvas to appear in random places
+// 2) Circle- Creates the emoji objects that drop from the top of the canvas
+// 3) Cash- Creates the money objects that drop from the top of the canvas
+// 4) Sound- Creates the new sounds, including methods to play and stop the sounds
+// 5) Girl- Creates the avatar girl along with properties for tracking movement and setting parameters
 class MiniStar{
     constructor(){
     this.x = Math.random() * canvas.width;
@@ -46,10 +51,15 @@ class Circle{
             ctx.drawImage(this.image, this.x - 24, this.y - 24, 40, 40)
         };
         update() {
-            if (this.x + this.radius > canvas.width || this.x < this.radius){   
-                this.dx = -this.dx
+            // if (this.x + this.radius > canvas.width || this.x < this.radius){   
+                // this.dx = -this.dx
+            if (this.x - this.radius > canvas.width){   
+                this.x = -this.radius
             }
-            if (this.y + this.radius > canvas.height-80 || this.y < this.radius){   
+            if (this.x+this.radius < 0){ 
+                this.x= canvas.width+this.radius
+            }
+            if (this.y + this.radius > canvas.height || this.y < this.radius){   
                 this.dy = -this.dy
             }
             this.x += this.dx;
@@ -110,7 +120,9 @@ class sound {
     }
   }
 
-  //Player Constructor 
+//Declare sound Component to be used in class Girl
+    myAir= new sound("./audio/shakira.mp3")
+
 class Girl {
     constructor() {
         this.trackIdle = 0;
@@ -144,29 +156,30 @@ class Girl {
     updateFrame(){
         this.curFrame = ++this.curFrame % this.frameCount; 				
         this.srcX = this.curFrame * this.width; 
-        //this.ctx.clearRect(this.x,this.y,60,90);	
+
         if(this.idle){
             this.srcY = this.trackIdle * this.height; 
         }
         
         if(this.left){    //removed properties  && this.x>0
+            //myWalk.play()
             this.srcY = this.trackLeft * this.height; 
-            if(this.x>3){
             this.x-=this.speed;
-            }else if (this.x<3) {
-                this.x=0
+            if (this.x<-20) {
+                this.x=canvas.width
             }
         }
         if(this.right ){   //removed properties && this.x<this.canvasWidth-this.width
+            //myWalk.play()
             this.srcY = this.trackRight * this.height; 
-            if(this.x<canvas.width-3){
             this.x+=this.speed; 
-            }else if (this.x>canvas.width-3) {
-                this.x=canvas.width-60
+            if (this.x>canvas.width) {
+                this.x=-50
             }    
         }
         if(this.jump){   //removed properties  && this.y<this.canvasHeight-this.height
             this.srcY = this.trackJump * this.height; 
+            myAir.play()
         }
         
     }

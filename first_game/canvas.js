@@ -1,12 +1,25 @@
-//start button clicked
+//Start button click event listener
+//Start menu background music
+//Event listeners
+//Canvas initialized
+//All variables, arrays, and new objects to be used throughout code
+
+
+//Start button clicked to start game
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
-    myMusic.stop();
-    startGame(); //calls startGame  
+    myMusic.stop();//stops intro music
+    
+    //Methods called for initial game set up. (See functions1.js)
+    startGame();   
     createFeelings()
     createCash()
     animate()
   };
+
+//Initiate background music to Start screen of the game
+myMusic = new sound("./audio/dance.mp3");
+myMusic.play();
 
 //Event Listeners
 // window.addEventListener('mousemove', //Is it in current use?
@@ -15,6 +28,10 @@ document.querySelector('#start-button').onclick = function(){
 //     mouse.y = event.y;
 //     // console.log(mouse)
 // })
+// var mouse = {
+//     x: undefined,
+//     y: undefined
+// }
 
 window.addEventListener('resize', function(){
   canvas.width = window.outerWidth/1.5; // Sets our canvas to browsers current dimensions
@@ -23,7 +40,7 @@ window.addEventListener('resize', function(){
   drawCash();
   })
 
-//Declare canvas
+//Declare canvas space to draw in
 var canvas = document.querySelector('canvas');  // associates canvas tag with canvas new var
 canvas.width = window.innerWidth/1.5; // Sets our canvas to browsers current dimensions
 canvas.height = window.innerHeight/1.8;
@@ -38,29 +55,24 @@ var girlLife3= new Image();
 
 var myMusic;
 
-
-//Declare variables
+//Declare global variables
 let loop
 let score=0;
 let numOfLives=0
 let inAir=false;
-let playover = true
 let gameOver=false;
 
-//Sprite settings
+//Sprite variable settings
 var spriteWidth = 1664; 
 var spriteHeight = 1816;
 var cols = 4;
 var rows = 4; 
 var girlX = canvas.width/2;
 var girlY = canvas.height-90;
-var aGirl= new Girl()
+var aGirl= new Girl() //Girl is a class on classes.js
 
 
-//Textures
-
-
-//Declare arrays to be used
+//Declare arrays to be used for image objects
 var gamelives= [];
 var cashArray = [];
 var circleArray = [];
@@ -68,23 +80,20 @@ var feelingsArray = [];
 var moneyArray = [];
 var miniStars = [];
 
-//Declare variable for players js
-var spriteWidth = 1664; 
-var spriteHeight = 1816; 
-var rows = 4; 
-var cols = 4; 
-var canvasWidth = canvas.width
-var canvashHeight = canvas.height
-var sectionWidth = spriteWidth/cols; 
-var sectionHeight = spriteHeight/rows; 
-
 // var idle = true;
 // var left = false; 
 // var right = false;
 // var jump = false;
 
+//Sound Components
+myWalk = new sound("./audio/footsteps-trimmed.mp3");
+myJump = new sound("./audio/jumppp22.ogg");
+myMoney= new sound("./audio/coin10.wav");
+myDeath= new sound("./audio/death.wav");
+myGameEnd= new sound("./audio/round_end.wav")
+myBackground= new sound("./audio/dance.mp3")
 
-
+//Draws background in the canvas space
 var groundHeight = canvas.height * 0.15;
 var ballSpawnHeight = 10;
 
@@ -105,16 +114,8 @@ var miniStars = [];
 		miniStars.push(new MiniStar());
 	}
 
-//Image objects with initial properties declared
-
-
-// let aGirl = {  
-//     x:canvas.width / 2,
-//     y:canvas.height-90,
-//     width: 60,
-//     height: 90
-// }
-var emojiLives=[
+//Games Lives Array
+var gameLives=[
     {
         x:canvas.width-140,
         y:0,
@@ -134,10 +135,7 @@ var emojiLives=[
         height: 40
     }]
     
-var mouse = {
-        x: undefined,
-        y: undefined
-    }
+
     
 
 // Feelings Array
@@ -175,30 +173,13 @@ coinEmoji1.src = './images/coinOne.png';
 moneyArray.push(coinEmoji1);
 
 let coinEmoji2 = new Image();
-coinEmoji2.src = './images/coinThumb.png';
+coinEmoji2.src = './images/coinOne.png';
 moneyArray.push(coinEmoji2);
 
 let coinEmoji3 = new Image();
-coinEmoji3.src = './images/moneyCrown.png';
+coinEmoji3.src = './images/coinOne.png';
 moneyArray.push(coinEmoji3);
 
-
-//declare avatarGirl images
-// let img3=new Image()
-// img3.src="./images/girl_movements/Run_Left.png"
-// let rab = false; 
-
-// let img4=new Image()
-// img4.src="./images/girl_movements/Run_Right.png"
-// let rrt = false; 
-
-// let img5=new Image()
-// img5.src="./images/girl_movements/move_up.png"
-// let rup = false; 
-
-// let img6=new Image()
-// img6.src="./images/girl_movements/move_down.png"
-// let rdown = false; 
 
 
 
