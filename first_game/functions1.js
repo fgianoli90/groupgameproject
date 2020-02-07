@@ -29,6 +29,8 @@ function startGame(){
   }
   girlLife3.src="./images/girl_movements/Idle.png";
   gamelives.push(girlLife3)
+
+  
     
 //  drawBoard()
   //Sound Components
@@ -37,8 +39,16 @@ function startGame(){
   myMoney= new sound("./audio/coin10.wav");
   myDeath= new sound("./audio/death.wav");
   myGameEnd= new sound("./audio/round_end.wav")
-  myBackground= new sound("./audio/dance.mp3")
-  myBackground.play()
+  // myBackground= new sound("./audio/dance.mp3")
+
+  myBackground= new Audio('./audio/dance.mp3'); 
+  myBackground.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+  myBackground.play();
+  // myBackground.loop = true;
+  // myBackground.play()
     
   //Use DOM to change styles for header and paragraph
   document.querySelector("header").innerText=`Score: ${score}`
@@ -91,8 +101,13 @@ function startGame(){
   createMountainRange(1, canvas.height - 50, "#fff");
   createMountainRange(2, canvas.height - 100,  "#669999");
   createMountainRange(3, canvas.height - 300 , "#00CCFF");
-//Draw ground    
-  ctx.fillStyle = "#FECE90";
+  
+  //Draw ground     
+  // ctx.fillStyle = "#FECE90"; 
+  var sandImage = new Image();
+  sandImage.src = './images/sand_newpixel.png';
+  var pat1 = ctx.createPattern(sandImage, "repeat");
+  ctx.fillStyle = pat1;    
   ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
   
   

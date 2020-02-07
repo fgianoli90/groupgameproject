@@ -34,7 +34,10 @@ var img = new Image();
 var girlLife1= new Image();
 var girlLife2= new Image();
 var girlLife3= new Image();
+
+
 var myMusic;
+
 
 //Declare variables
 let loop
@@ -52,6 +55,9 @@ var rows = 4;
 var girlX = canvas.width/2;
 var girlY = canvas.height-90;
 var aGirl= new Girl()
+
+
+//Textures
 
 
 //Declare arrays to be used
@@ -81,13 +87,23 @@ var sectionHeight = spriteHeight/rows;
 
 var groundHeight = canvas.height * 0.15;
 var ballSpawnHeight = 10;
+
+
+
+//BackGround Gradient properties for Background
 var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
+backgroundGradient.addColorStop(0,"#171e26");
+backgroundGradient.addColorStop(1,"white");
+
+
+
+
+
+//Create Background Stars
 var miniStars = [];
 	for (let i = 0; i < 30; i++) {
 		miniStars.push(new MiniStar());
 	}
-backgroundGradient.addColorStop(0,"#171e26");
-backgroundGradient.addColorStop(1,"#00CCFF");
 
 //Image objects with initial properties declared
 
