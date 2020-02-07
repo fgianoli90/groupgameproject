@@ -51,6 +51,8 @@ var img = new Image();
 var girlLife1= new Image();
 var girlLife2= new Image();
 var girlLife3= new Image();
+
+
 var myMusic;
 
 //Declare global variables
@@ -99,16 +101,20 @@ myBackground.addEventListener('ended', function() {
 //Draws background in the canvas space
 var groundHeight = canvas.height * 0.15;
 var ballSpawnHeight = 10;
+
+//BackGround Gradient properties for Background
 var backgroundGradient = ctx.createLinearGradient(0,0,0, canvas.height);
+backgroundGradient.addColorStop(0,"#171e26");
+backgroundGradient.addColorStop(1,"white");
+
+//Create Background Stars
 var miniStars = [];
 	for (let i = 0; i < 30; i++) {
 		miniStars.push(new MiniStar());
 	}
-backgroundGradient.addColorStop(0,"#171e26");
-backgroundGradient.addColorStop(1,"#00CCFF");
 
 //Games Lives Array
-var emojiLives=[
+var gameLives=[
     {
         x:canvas.width-140,
         y:0,
@@ -172,6 +178,7 @@ moneyArray.push(coinEmoji2);
 let coinEmoji3 = new Image();
 coinEmoji3.src = './images/coinOne.png';
 moneyArray.push(coinEmoji3);
+
 
 
 

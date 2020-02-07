@@ -8,7 +8,7 @@ class MiniStar{
     constructor(){
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.radius = Math.random() * 3;
+    this.radius = Math.random() * 8;
     }
     draw() {
         ctx.save();
@@ -187,6 +187,7 @@ class Girl {
     draw() {
         this.updateFrame();
         ctx.drawImage(this.character,this.srcX,this.srcY,this.width,this.height,this.x,this.y,60,90);
+        
     }
 
     moveLeft(){

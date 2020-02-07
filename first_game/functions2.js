@@ -21,8 +21,8 @@ function drawCash(){
 }
 
 function drawGameLives(){
-    for (i=0;i<emojiLives.length;i++){
-      ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
+    for (i=0;i<gameLives.length;i++){
+      ctx.drawImage(gamelives[i], gameLives[i].x, gameLives[i].y, gameLives[i].width, gameLives[i].height)
     }
 }
 
@@ -77,7 +77,7 @@ function checkStatus() {
   //Statement to check counter for number of game lives taken and if 3 or more then stops game 
   //and calls method for game over
     if (numOfLives>=3){
-        myBackground.stop()
+        myBackground.loop = false;
         myGameEnd.play()
         window.cancelAnimationFrame(loop)
         doGameOver(ctx) //See gameOver.js
