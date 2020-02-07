@@ -22,15 +22,6 @@ function drawGameLives(){
   }
 }
 
-// function updatePosition(positionX,positionY){
-//   aGirl.srcX=positionX
-//   aGirl.srcY=positionY
-// }
-
-// function drawGirl() {
-//   newGirl=new Girl(positioned.x,positioned.y,avatarGirl.x,avatarGirl.y,avatarGirl.width,avatarGirl.height)
-//   newGirl.updateFrame(); //draws the avatarGirl depending on the coords in the obj above 
-// }
 function createMountainRange(mountainAmount, height,  color) {
   for (let i = 0; i < mountainAmount; i++) {
       let mountainWidth = canvas.width / mountainAmount;
@@ -54,8 +45,8 @@ function collision(object){
   return !(
         aGirl.x > object.x+object.radius ||
         aGirl.y > object.y+object.radius ||
-        aGirl.x+aGirl.width < object.x ||
-        aGirl.y+aGirl.height < object.y
+        aGirl.x+60 < object.x-object.radius ||
+        aGirl.y+90 < object.y-object.radius
       )
   }
 

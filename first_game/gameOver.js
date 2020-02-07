@@ -12,7 +12,7 @@ let doGameOver = function(ctx) {
     ctx.fillStyle= "#6a8ccc"
     ctx.font = '120px verdana';
     ctx.fillText("Game Over!", canvas.width/2-350, canvas.height/2);
-    newGirl.draw()
+    aGirl.draw()
     document.querySelector("header").style.fontSize="120px"
 
     if (!gameOver){
