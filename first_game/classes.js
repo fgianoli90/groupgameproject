@@ -135,7 +135,7 @@ class Girl {
         this.right = false;
         this.jump = false;
         
-        this.speed = 3; 
+        this.speed =  3; 
         this.ctx = ctx
         this.character = new Image(); 
         this.character.src = "./images/girl_movements/final_girl_sprites.png";
