@@ -1,9 +1,6 @@
 //start button clicked
 document.querySelector('#start-button').onclick = function(){
     this.remove(); //removes start button
-    //Reassign order of divs to get canvas to center
-    var divs = document.getElementsByTagName("div");
-    divs[0].parentNode.appendChild(divs[0]);
     myMusic.stop();
     startGame(); //calls startGame  
     createFeelings()
@@ -64,6 +61,21 @@ var circleArray = [];
 var feelingsArray = [];
 var moneyArray = [];
 var miniStars = [];
+
+//Declare variable for players js
+var spriteWidth = 1664; 
+var spriteHeight = 1816; 
+var rows = 4; 
+var cols = 4; 
+var canvasWidth = canvas.width
+var canvashHeight = canvas.height
+var sectionWidth = spriteWidth/cols; 
+var sectionHeight = spriteHeight/rows; 
+
+// var idle = true;
+// var left = false; 
+// var right = false;
+// var jump = false;
 
 
 

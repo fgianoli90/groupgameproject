@@ -16,6 +16,12 @@ function drawCash(){
   })
 }
 
+function drawGameLives(){
+  for (i=0;i<emojiLives.length;i++){
+    ctx.drawImage(gamelives[i], emojiLives[i].x, emojiLives[i].y, emojiLives[i].width, emojiLives[i].height)
+  }
+}
+
 function createMountainRange(mountainAmount, height,  color) {
   for (let i = 0; i < mountainAmount; i++) {
       let mountainWidth = canvas.width / mountainAmount;
@@ -39,8 +45,8 @@ function collision(object){
   return !(
         aGirl.x > object.x+object.radius ||
         aGirl.y > object.y+object.radius ||
-        aGirl.x+aGirl.width < object.x ||
-        aGirl.y+aGirl.height < object.y
+        aGirl.x+60 < object.x-object.radius ||
+        aGirl.y+90 < object.y-object.radius
       )
   }
 
@@ -49,18 +55,12 @@ function checkStatus() {
       
       for (let i=0;i<circleArray.length;i++){  
         if(collision(circleArray[i])){
-              // console.log("feelings got me")
-              myDeath.play()
-              // myBackground.stop()
-              // myGameEnd.play()
-              // window.cancelAnimationFrame(loop)
-              circleArray.splice(i,1) //keeps stopping after 3rd emoji hit
-              // i= circleArray.length
-              // doGameOver(ctx)
-              emojiLives.pop()
-              numOfLives++
-              }
-            }
+             myDeath.play()
+             circleArray.splice(i,1)
+             emojiLives.pop()
+             numOfLives++
+        }
+      }
           
       
       

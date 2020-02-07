@@ -6,23 +6,14 @@
 
 
 let doGameOver = function(ctx) {
-    //window.cancelAnimationFrame(loop)
+ 
     ctx.clearRect(0,0,canvas.width, canvas.height);
-   //  ctx.fillText('Game Over',200,204);
-    ctx.font = '60px serif';
-    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop("0"," magenta");
-    gradient.addColorStop("0.5", "blue");
-    gradient.addColorStop("1.0", "red");
-    // Fill with gradient
-    ctx.fillStyle = gradient;
-    ctx.fillText("Game Over!", canvas.width/2-200, canvas.height/2);
-    img.onload = function() {   
-      ctx.drawImage(img, avatarGirl.x, avatarGirl.y, avatarGirl.width, avatarGirl.height);
-   };
-   img.src = "./images/girl_movements/Idle.png";  
-    //  ctx.fillStyle= "#6a8ccc"
-    console.log("remove1")
+   
+    ctx.fillStyle= "#6a8ccc"
+    ctx.font = '120px verdana';
+    ctx.fillText("Game Over!", canvas.width/2-350, canvas.height/2);
+    aGirl.draw()
+    document.querySelector("header").style.fontSize="120px"
 
     if (!gameOver){
     document.querySelector(".game-intro > p").remove();   
@@ -30,6 +21,7 @@ let doGameOver = function(ctx) {
     document.querySelector(".game-intro > img").remove();
     let btn = document.createElement("BUTTON");
     btn.innerHTML = "Restart";
+    btn.className="glow2";
     document.querySelector(".game-intro").appendChild(btn)
     document.querySelector(".game-intro > button").onclick = init;
 

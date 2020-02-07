@@ -39,7 +39,7 @@ class Circle{
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             // ctx.strokeStyle = 'blue';
-            ctx.stroke();
+            // ctx.stroke();
             ctx.strokeStyle = this.stroke;
             // ctx.fillStyle = this.color;
             // ctx.fill();
@@ -144,29 +144,35 @@ class Girl {
     updateFrame(){
         this.curFrame = ++this.curFrame % this.frameCount; 				
         this.srcX = this.curFrame * this.width; 
-        // this.ctx.clearRect(this.x,this.y,this.width,this.height);	
+        //this.ctx.clearRect(this.x,this.y,60,90);	
         if(this.idle){
             this.srcY = this.trackIdle * this.height; 
-            
         }
         
         if(this.left){    //removed properties  && this.x>0
             this.srcY = this.trackLeft * this.height; 
-            this.x-=this.speed; 
+            if(this.x>3){
+            this.x-=this.speed;
+            }else if (this.x<3) {
+                this.x=0
+            }
         }
         if(this.right ){   //removed properties && this.x<this.canvasWidth-this.width
             this.srcY = this.trackRight * this.height; 
+            if(this.x<canvas.width-3){
             this.x+=this.speed; 
+            }else if (this.x>canvas.width-3) {
+                this.x=canvas.width-60
+            }    
         }
         if(this.jump){   //removed properties  && this.y<this.canvasHeight-this.height
             this.srcY = this.trackJump * this.height; 
-            // this.x+=this.speed; 
         }
-        this.draw()
+        
     }
     
     draw() {
-        // this.updateFrame();
+        this.updateFrame();
         ctx.drawImage(this.character,this.srcX,this.srcY,this.width,this.height,this.x,this.y,60,90);
     }
 
