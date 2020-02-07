@@ -66,7 +66,7 @@ var spriteHeight = 1816;
 var cols = 4;
 var rows = 4; 
 var girlX = canvas.width/2;
-var girlY = this.y=canvas.height-90;
+var girlY = canvas.height-90;
 var aGirl= new Girl() //Girl is a class on classes.js
 
 
